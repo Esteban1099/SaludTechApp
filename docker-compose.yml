@@ -1,0 +1,52 @@
+version: '3'
+services:
+  sta:
+    image: sta
+    container_name: saludtech
+    ports:
+      - "5000:5000"
+    environment:
+      DB_URI: postgresql://postgres:postgres@database:5432/backend-db
+      BROKER_HOST: pulsar
+    depends_on:
+      database:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
+  notificaciones:
+    image: notificaciones
+    container_name: notificaciones
+    environment:
+      BROKER_HOST: pulsar
+    depends_on:
+      pulsar:
+        condition: service_healthy
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar
+    command: [ "bin/pulsar", "standalone" ]
+    ports:
+      - "6650:6650"  # Puerto para clientes Pulsar
+      - "8080:8080"  # Puerto para la API REST de Pulsar
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/admin/v2/brokers/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  database:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: backend-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+

@@ -1,0 +1,2 @@
+pulsar-client==3.5.0
+pulsar-client[avro]==3.5.0
