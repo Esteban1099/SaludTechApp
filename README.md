@@ -27,12 +27,16 @@ docker compose up -d
 
 ## 1. Soportar un aumento de centros de salud conectados
 A medida que SaludTech expande sus operaciones a lo largo del continente americano, se agregan cientos de nuevos centros de salud a la plataforma, aumentando el volumen de datos procesados. El sistema debe escalar para poder procesar esto datos sin afectar el rendimiento.
+![image](https://github.com/user-attachments/assets/744cfcc8-923c-414c-8444-64c70441b84e)
 
 ## 2. Protección de datos anonimizados
 Como parte del cumplimiento con regulaciones como HIPAA, los datos deben almacenarse y transmitirse de manera segura para evitar exposición de información sensible.
+![image](https://github.com/user-attachments/assets/21554302-c34b-423a-9910-2f3aca2ad0a2)
 
 ## 3. Monitoreo proactivo de la infraestructura
 Implementar monitoreo en tiempo real para prevenir fallos antes de que afecten a los usuarios.
+![image](https://github.com/user-attachments/assets/14b9405d-b0ac-4af0-b87a-e2e50c83247c)
+
 
 
 
