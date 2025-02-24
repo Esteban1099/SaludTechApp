@@ -35,7 +35,8 @@ Como parte del cumplimiento con regulaciones como HIPAA, los datos deben almacen
 
 ## 3. Monitoreo proactivo de la infraestructura
 Implementar monitoreo en tiempo real para prevenir fallos antes de que afecten a los usuarios.
-![image](https://github.com/user-attachments/assets/14b9405d-b0ac-4af0-b87a-e2e50c83247c)
+![image](https://github.com/user-attachments/assets/515b6fe6-8cf4-4f18-bf1a-8f544e2b86fa)
+
 
 
 
