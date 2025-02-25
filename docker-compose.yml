@@ -21,6 +21,14 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
+  canonizacion:
+    image: canonizacion
+    container_name: canonizacion
+    environment:
+      BROKER_HOST: pulsar
+    depends_on:
+      pulsar:
+        condition: service_healthy
   pulsar:
     image: apachepulsar/pulsar:latest
     container_name: pulsar
