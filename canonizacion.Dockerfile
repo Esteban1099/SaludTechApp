@@ -15,4 +15,7 @@ RUN pip install -r canonizacion-requirements.txt
 # Copiar el código fuente
 COPY src/ ./src/
 
-CMD ["python", "-m", "src.canonizacion.main"] 
+# Agregar el directorio actual al PYTHONPATH
+ENV PYTHONPATH=/app
+
+CMD ["python", "-m", "src.canonizacion.main"]
