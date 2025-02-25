@@ -1,11 +1,11 @@
+import datetime
+
 import pulsar
 from pulsar.schema import *
 
-import datetime
-
-from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.comandos import ComandoAgregarImagenMedicaPayload, \
-    ComandoAgregarImagenMedica
-from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import EventoImagenMedicaAgregada
+from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.comandos import ComandoAgregarImagenMedica
+from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import ImagenMedicaAgregadaPayload, \
+    EventoImagenMedicaAgregada
 from src.sta.seedwork.infraestructura import utils
 
 epoch = datetime.datetime.utcfromtimestamp(0)
@@ -22,11 +22,21 @@ class Despachador:
         publicador.send(mensaje)
         cliente.close()
 
-    def publicar_comando(self, comando, topico):
-        payload = ComandoAgregarImagenMedicaPayload(
-            id=str(comando.id),
-            modalidad=comando.modalidad,
-            fecha_creacion=comando.fecha_creacion
+    def publicar_evento(self, evento, topico):
+        payload = ImagenMedicaAgregadaPayload(
+            id=str(evento.id),
+            modalidad=evento.modalidad,
+            fecha_creacion=str(evento.fecha_creacion),
+            estado=evento.estado
         )
-        comando_integracion = ComandoAgregarImagenMedica(data=payload)
-        self._publicar_mensaje(comando_integracion, topico, AvroSchema(ComandoAgregarImagenMedica))
+        evento_integracion = EventoImagenMedicaAgregada(data=payload)
+        self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoImagenMedicaAgregada))
+
+    def publicar_comando(self, comando, topico):
+        mapeador = self._obtener_mapeador()
+        self._publicar_mensaje(mapeador.comando_a_comando_integracion(comando), topico,
+                               AvroSchema(ComandoAgregarImagenMedica))
+
+    def _obtener_mapeador(self):
+        from src.sta.modulos.ingesta_automatizada.dominio.mapeadores import MapeadorComandoAgregarImagenMedica
+        return MapeadorComandoAgregarImagenMedica()

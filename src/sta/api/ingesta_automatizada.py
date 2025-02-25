@@ -5,7 +5,6 @@ from flask import Response, request
 from src.sta.modulos.ingesta_automatizada.aplicacion.comandos.agregar_imagen_medica import AgregarImagenMedica
 from src.sta.modulos.ingesta_automatizada.aplicacion.mapeadores import MapeadorImagenMedicaDTOJson
 from src.sta.modulos.ingesta_automatizada.infraestructura.despachadores import Despachador
-from src.sta.seedwork.aplicacion.comandos import ejecutar_comando
 from src.sta.seedwork.dominio.excepciones import ExcepcionDominio
 from src.sta.seedwork.presentacion import api
 
@@ -27,9 +26,9 @@ def agregar_imagen_medica_asincrona():
             regiones_anatomicas=imagen_medica_dto.regiones_anatomicas,
             diagnostico=imagen_medica_dto.diagnostico
         )
-        ejecutar_comando(comando)
-        d = Despachador()
-        d.publicar_comando(comando=comando, topico="comandos-imagen-medica")
+
+        despachador = Despachador()
+        despachador.publicar_comando(comando=comando, topico="comandos-imagen-medica")
         return Response('{}', status=202, mimetype='application/json')
     except ExcepcionDominio as e:
         return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')

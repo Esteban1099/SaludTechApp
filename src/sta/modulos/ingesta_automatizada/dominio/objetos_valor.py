@@ -41,5 +41,6 @@ class Etnia(Enum):
 
 
 class EstadoImagenMedica(str, Enum):
+    EN_INGESTA = "En ingesta"
     CREADA = "Creada"
     PAGADA = "Pagada"

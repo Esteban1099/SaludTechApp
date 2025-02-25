@@ -160,3 +160,4 @@ class MapeadorImagenMedicaDTOEntity(RepMap):
         return imagen_medica
 
 
+

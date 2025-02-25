@@ -1,12 +1,13 @@
-from src.sta.seedwork.aplicacion.comandos import Comando
-from src.sta.modulos.ingesta_automatizada.aplicacion.dto import RegionAnatomicaDTO, DiagnosticoDTO, ImagenMedicaDTO
-from src.sta.modulos.ingesta_automatizada.aplicacion.comandos.base import AgregarImagenMedicaBaseHandler
 from dataclasses import dataclass
-from src.sta.seedwork.aplicacion.comandos import ejecutar_comando as comando
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
-from src.sta.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+
+from src.sta.modulos.ingesta_automatizada.aplicacion.comandos.base import AgregarImagenMedicaBaseHandler
+from src.sta.modulos.ingesta_automatizada.aplicacion.dto import RegionAnatomicaDTO, DiagnosticoDTO, ImagenMedicaDTO
 from src.sta.modulos.ingesta_automatizada.aplicacion.mapeadores import MapeadorImagenMedicaDTOEntity
+from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
 from src.sta.modulos.ingesta_automatizada.infraestructura.repositorios import RepositorioImagenesMedicas
+from src.sta.seedwork.aplicacion.comandos import Comando
+from src.sta.seedwork.aplicacion.comandos import ejecutar_comando
+from src.sta.seedwork.infraestructura.uow import UnidadTrabajoPuerto
 
 
 @dataclass
@@ -37,7 +38,7 @@ class AgregarImagenMedicaHandler(AgregarImagenMedicaBaseHandler):
         UnidadTrabajoPuerto.commit()
 
 
-@comando.register(AgregarImagenMedica)
+@ejecutar_comando.register(AgregarImagenMedica)
 def ejecutar_comando_agregar_imagen_medica(comando: AgregarImagenMedica):
     handler = AgregarImagenMedicaHandler()
     handler.handle(comando)
