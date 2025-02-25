@@ -50,4 +50,3 @@ while True:
     consumer.acknowledge(msg)
 
 client.close()
-
