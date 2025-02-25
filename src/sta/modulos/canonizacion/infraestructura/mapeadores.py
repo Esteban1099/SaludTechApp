@@ -1,5 +1,5 @@
-from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenCanonizada, Demografia, Diagnostico, RegionAnatomica, Atributo
-from src.canonizacion.modulos.canonizacion.infraestructura.dto import ImagenCanonizadaDTO, DemografiaDTO, DiagnosticoDTO, RegionAnatomicaDTO, AtributoDTO
+from src.sta.modulos.canonizacion.dominio.entidades import ImagenCanonizada, Demografia, Diagnostico, RegionAnatomica, Atributo
+from src.sta.modulos.canonizacion.infraestructura.dto import ImagenCanonizadaDTO, DemografiaDTO, DiagnosticoDTO, RegionAnatomicaDTO, AtributoDTO
 from src.sta.seedwork.dominio.repositorios import Mapeador
 from uuid import UUID
 

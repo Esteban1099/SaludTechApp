@@ -6,10 +6,10 @@ services:
     ports:
       - "5001:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database-sta:5432/backend-db
+      DB_URI: postgresql://postgres:postgres@database:5432/backend-db
       BROKER_HOST: pulsar
     depends_on:
-      database-sta:
+      database:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -22,20 +22,12 @@ services:
       pulsar:
         condition: service_healthy
   canonizacion:
-    image: canonizacion
+    image: sta
     container_name: canonizacion
-    ports:
-      - "5002:5001"
     environment:
-      POSTGRES_HOST: database-canonizacion
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: canonizacion-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
       BROKER_HOST: pulsar
+    command: ["python", "-m", "src.sta.modulos.canonizacion.main"]
     depends_on:
-      database-canonizacion:
-        condition: service_healthy
       pulsar:
         condition: service_healthy
   pulsar:
@@ -51,27 +43,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  database-sta:
-    image: postgres:13
-    container_name: postgres-sta
+  database:
+    image: postgres
+    container_name: postgres
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: backend-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 2s
-      timeout: 5s
-      retries: 5
-  database-canonizacion:
-    image: postgres:13
-    container_name: postgres-canonizacion
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_DB: canonizacion-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:

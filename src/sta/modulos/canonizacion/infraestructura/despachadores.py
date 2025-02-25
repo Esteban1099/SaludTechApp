@@ -2,7 +2,7 @@ import pulsar
 from pulsar.schema import *
 import datetime
 
-from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.eventos import EventoImagenCanonizada, ImagenCanonizadaPayload
+from src.sta.modulos.canonizacion.infraestructura.schema.v1.eventos import EventoImagenCanonizada, ImagenCanonizadaPayload
 from src.sta.seedwork.infraestructura import utils
 
 class Despachador:

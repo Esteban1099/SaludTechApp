@@ -1,8 +1,8 @@
 from uuid import UUID
 from src.sta.config.db import db
-from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenCanonizada
-from src.canonizacion.modulos.canonizacion.dominio.repositorios import RepositorioImagenesCanonizadas
-from src.canonizacion.modulos.canonizacion.infraestructura.mapeadores import MapeadorImagenCanonizadaDTOEntity
+from src.sta.modulos.canonizacion.dominio.entidades import ImagenCanonizada
+from src.sta.modulos.canonizacion.dominio.repositorios import RepositorioImagenesCanonizadas
+from src.sta.modulos.canonizacion.infraestructura.mapeadores import MapeadorImagenCanonizadaDTOEntity
 
 class RepositorioImagenesCanonizadasPostgres(RepositorioImagenesCanonizadas):
     def __init__(self):

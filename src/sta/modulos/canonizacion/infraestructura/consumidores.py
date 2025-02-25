@@ -7,7 +7,8 @@ import uuid
 import datetime
 
 from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import EventoImagenMedicaAgregada
-from src.canonizacion.modulos.canonizacion.infraestructura.despachadores import Despachador
+from src.sta.modulos.canonizacion.infraestructura.despachadores import Despachador  # Corregido
+from src.sta.seedwork.infraestructura import utils
 
 def suscribirse_a_eventos():
     cliente = None
