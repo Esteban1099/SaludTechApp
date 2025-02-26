@@ -6,4 +6,4 @@ class HandlerImagenMedicaIntegracion(Handler):
     @staticmethod
     def handle_imagen_medica_agregada(evento):
         despachador = Despachador()
-        despachador.publicar_evento(evento, 'eventos-reserva')
+        despachador.publicar_evento(evento, 'eventos-imagen-medica')

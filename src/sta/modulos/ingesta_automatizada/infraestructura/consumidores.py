@@ -5,11 +5,11 @@ import _pulsar
 import pulsar
 from pulsar.schema import *
 
+from src.sta.modulos.ingesta_automatizada.dominio.mapeadores import MapeadorComandoAgregarImagenMedica
 from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.comandos import ComandoAgregarImagenMedica
 from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import EventoImagenMedicaAgregada
-from src.sta.seedwork.infraestructura import utils
-
 from src.sta.seedwork.aplicacion.comandos import ejecutar_comando
+from src.sta.seedwork.infraestructura import utils
 
 
 def suscribirse_a_eventos():
@@ -17,13 +17,12 @@ def suscribirse_a_eventos():
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
         consumidor = cliente.subscribe('eventos-imagen-medica', consumer_type=_pulsar.ConsumerType.Shared,
-                                       subscription_name='sta-sub-eventos',
+                                       subscription_name='sta-sub-eventos-imagen-medica',
                                        schema=AvroSchema(EventoImagenMedicaAgregada))
 
         while True:
             mensaje = consumidor.receive()
             print(f'Evento recibido: {mensaje.value().data}')
-
             consumidor.acknowledge(mensaje)
 
         cliente.close()
@@ -45,6 +44,9 @@ def suscribirse_a_comandos():
         while True:
             mensaje = consumidor.receive()
             print(f'Comando recibido: {mensaje.value().data}')
+            mapeador = MapeadorComandoAgregarImagenMedica()
+            comando = mapeador.comando_integracion_a_comando(mensaje.value())
+            ejecutar_comando(comando)
             consumidor.acknowledge(mensaje)
 
         cliente.close()

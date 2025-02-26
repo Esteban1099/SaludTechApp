@@ -1,5 +1,3 @@
-from enum import unique
-
 from src.sta.config.db import db
 
 Base = db.declarative_base()

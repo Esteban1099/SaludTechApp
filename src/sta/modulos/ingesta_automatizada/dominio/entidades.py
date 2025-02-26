@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import src.sta.modulos.ingesta_automatizada.dominio.objetos_valor as objetos_valor
-from src.sta.modulos.ingesta_automatizada.dominio.eventos import ImagenMedicaAgregada, ImagenMedicaPagada
+from src.sta.modulos.ingesta_automatizada.dominio.eventos import ImagenMedicaAgregada
 from src.sta.seedwork.dominio.entidades import AgregacionRaiz, Entidad
 
 
@@ -40,22 +40,17 @@ class ImagenMedica(AgregacionRaiz):
     diagnostico: Diagnostico = None
     modalidad: objetos_valor.Modalidad = None
     regiones_anatomicas: list[RegionAnatomica] = field(default_factory=list[RegionAnatomica])
-    estado = objetos_valor.EstadoImagenMedica.CREADA
+    estado = objetos_valor.EstadoImagenMedica.EN_INGESTA
 
     def agregar_imagen_medica(self, imagen_medica: ImagenMedica):
         self.diagnostico = imagen_medica.diagnostico
         self.modalidad = imagen_medica.modalidad
         self.fecha_creacion = imagen_medica.fecha_creacion
         self.regiones_anatomicas = imagen_medica.regiones_anatomicas
+        self.estado=objetos_valor.EstadoImagenMedica.CREADA
         self.agregar_evento(ImagenMedicaAgregada(
-            id_imagen_medica=self.id,
-            estado=self.estado,
-            fecha_creacion=self.fecha_creacion
-        ))
-
-    def pagar_imagen_medica(self):
-        self.estado = objetos_valor.EstadoImagenMedica.PAGADA
-        self.agregar_evento(ImagenMedicaPagada(
-            id_imagen_medica=self.id,
-            fecha_actualizacion=self.fecha_actualizacion
+            id=self.id,
+            modalidad=self.modalidad.value,
+            fecha_creacion=self.fecha_creacion,
+            estado=self.estado.value
         ))

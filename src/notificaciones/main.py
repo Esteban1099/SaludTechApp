@@ -1,8 +1,10 @@
-import pulsar, _pulsar
-from pulsar.schema import *
-import uuid
-import time
 import os
+import time
+import uuid
+
+import _pulsar
+import pulsar
+from pulsar.schema import *
 
 
 def time_millis():
@@ -19,40 +21,11 @@ class EventoIntegracion(Record):
     service_name = String()
 
 
-class DemografiaRecord(Record):
-    id = String()
-    edad = Integer()
-    grupo_edad = String()
-    sexo = String()
-    etnicidad = String()
-
-
-class AtributoRecord(Record):
-    id = String()
-    nombre = String()
-    descripcion = String()
-
-
-class DiagnosticoRecord(Record):
-    id = String()
-    nombre = String()
-    descripcion = String()
-    demografia = DemografiaRecord()
-    atributos = Array(AtributoRecord())
-
-
-class RegionAnatomicaRecord(Record):
-    id = String()
-    categoria = String()
-    especificacion = String()
-
-
 class ImagenMedicaAgregadaPayload(Record):
     id = String()
     modalidad = String()
     fecha_creacion = String()
-    regiones_anatomicas = Array(RegionAnatomicaRecord())
-    diagnostico = DiagnosticoRecord()
+    estado = String()
 
 
 class EventoImagenMedicaAgregada(EventoIntegracion):
@@ -62,7 +35,7 @@ class EventoImagenMedicaAgregada(EventoIntegracion):
 BROKER_HOST = os.getenv('BROKER_HOST', default="localhost")
 
 client = pulsar.Client(f'pulsar://{BROKER_HOST}:6650')
-consumer = client.subscribe('comandos-imagen-medica', consumer_type=_pulsar.ConsumerType.Shared,
+consumer = client.subscribe('eventos-imagen-medica', consumer_type=_pulsar.ConsumerType.Shared,
                             subscription_name='sub-notificacion-eventos-imagen-medica',
                             schema=AvroSchema(EventoImagenMedicaAgregada))
 

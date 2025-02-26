@@ -8,7 +8,7 @@ class Comando:
 
 class ComandoHandler(ABC):
     @abstractmethod
-    def handle(selfself, comando: Comando):
+    def handle(self, comando: Comando):
         raise NotImplementedError()
 
 

@@ -1,5 +1,5 @@
-import time
 import os
+import time
 
 
 def time_millis():

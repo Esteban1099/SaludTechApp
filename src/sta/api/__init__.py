@@ -1,4 +1,5 @@
 import os
+import threading
 
 from flask import Flask, jsonify
 from flask_swagger import swagger
@@ -14,17 +15,25 @@ def importar_modelos_alchemy():
     import src.sta.modulos.ingesta_automatizada.infraestructura.dto
 
 
-def comenzar_consumidor(aplicacion):
-    import threading
+def iniciar_hilos(app):
+    """Función para iniciar los hilos de suscripción dentro del contexto de Flask."""
     import src.sta.modulos.ingesta_automatizada.infraestructura.consumidores as ingesta_automatizada
 
-    threading.Thread(target=ingesta_automatizada.suscribirse_a_eventos).start()
+    def run_suscribirse_a_eventos():
+        with app.app_context():  # Asegura que Flask tenga contexto en este hilo
+            ingesta_automatizada.suscribirse_a_eventos()
 
-    threading.Thread(target=ingesta_automatizada.suscribirse_a_comandos).start()
+    def run_suscribirse_a_comandos():
+        with app.app_context():  # Asegura que Flask tenga contexto en este hilo
+            ingesta_automatizada.suscribirse_a_comandos()
+
+    # Iniciar los hilos en modo daemon (para que terminen cuando la app se cierre)
+    threading.Thread(target=run_suscribirse_a_eventos, daemon=True).start()
+    threading.Thread(target=run_suscribirse_a_comandos, daemon=True).start()
 
 
 def create_app():
-    aplicacion = Flask(__name__, instance_relative_config=True)
+    aplicacion = Flask(__name__)
 
     aplicacion.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI',
                                                              'sqlite:///' + os.path.join(basedir, 'database.db'))
@@ -39,10 +48,10 @@ def create_app():
 
     importar_modelos_alchemy()
     registrar_handlers()
-    comenzar_consumidor(aplicacion)
 
     with aplicacion.app_context():
         db.create_all()
+        iniciar_hilos(aplicacion)
 
     from . import ingesta_automatizada
 

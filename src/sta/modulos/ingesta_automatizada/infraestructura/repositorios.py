@@ -1,10 +1,10 @@
 from uuid import UUID
 
 from src.sta.config.db import db
-from src.sta.modulos.ingesta_automatizada.infraestructura.mapeadores import MapeadorImagenMedicaDTOEntity
 from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
 from src.sta.modulos.ingesta_automatizada.dominio.fabricas import FabricaIngestaAutomatizada
 from src.sta.modulos.ingesta_automatizada.dominio.repositorios import RepositorioImagenesMedicas
+from src.sta.modulos.ingesta_automatizada.infraestructura.mapeadores import MapeadorImagenMedicaDTOEntity
 
 
 class RepositorioImagenesMedicasMySQL(RepositorioImagenesMedicas):
