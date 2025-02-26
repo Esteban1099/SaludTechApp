@@ -3,7 +3,7 @@ services:
     image: sta
     container_name: saludtech
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       DB_URI: postgresql://postgres:postgres@database:5432/backend-db
       BROKER_HOST: pulsar
@@ -23,6 +23,17 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
+
+  canonizacion:
+    image: sta
+    container_name: canonizacion
+    environment:
+      BROKER_HOST: pulsar
+    command: ["python", "-m", "src.sta.modulos.canonizacion.main"]
+    depends_on:
+      pulsar:
+        condition: service_healthy
+
     networks:
       - saludtech-network
 
