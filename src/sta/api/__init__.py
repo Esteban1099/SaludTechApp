@@ -8,11 +8,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 def registrar_handlers():
-    pass
+    import src.sta.modulos.ingesta_automatizada.aplicacion
 
 
 def importar_modelos_alchemy():
-    pass
+    import src.sta.modulos.ingesta_automatizada.infraestructura.dto
 
 
 def iniciar_hilos(app):
