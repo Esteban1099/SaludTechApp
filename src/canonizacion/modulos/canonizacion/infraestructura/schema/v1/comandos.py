@@ -1,6 +1,6 @@
 from pulsar.schema import *
 
-from src.sta.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
+from src.canonizacion.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
 
 
 class DemografiaRecord(Record):

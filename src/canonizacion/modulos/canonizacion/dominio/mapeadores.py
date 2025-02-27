@@ -1,9 +1,9 @@
-from src.sta.modulos.ingesta_automatizada.aplicacion.comandos.agregar_imagen_medica import AgregarImagenMedica
-from src.sta.modulos.ingesta_automatizada.aplicacion.dto import DemografiaDTO, AtributoDTO, DiagnosticoDTO, \
+from src.canonizacion.modulos.canonizacion.aplicacion.comandos.agregar_imagen_medica import AgregarImagenMedica
+from src.canonizacion.modulos.canonizacion.aplicacion.dto import DemografiaDTO, AtributoDTO, DiagnosticoDTO, \
     RegionAnatomicaDTO
-from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.comandos import DemografiaRecord, AtributoRecord, \
+from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.comandos import DemografiaRecord, AtributoRecord, \
     DiagnosticoRecord, RegionAnatomicaRecord, ComandoAgregarImagenMedica, ComandoAgregarImagenMedicaPayload
-from src.sta.seedwork.infraestructura.mapeadores import Mapeador as InfMap
+from src.canonizacion.seedwork.infraestructura.mapeadores import Mapeador as InfMap
 
 
 class MapeadorComandoAgregarImagenMedica(InfMap):

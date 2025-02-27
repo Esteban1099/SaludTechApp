@@ -1,10 +1,11 @@
 import threading
+import uuid
 from abc import ABC, abstractmethod
 from enum import Enum
 
 from pydispatch import dispatcher
 
-from src.sta.seedwork.dominio.entidades import AgregacionRaiz
+from src.canonizacion.seedwork.dominio.entidades import AgregacionRaiz
 
 
 class Lock(Enum):
@@ -13,11 +14,11 @@ class Lock(Enum):
 
 
 class Batch:
-    def __init__(self, operacion, lock: Lock, *args, **kwargs):
+    def __init__(self, operacion, *args, **kwargs):
         self.operacion = operacion
         self.args = args
-        self.lock = lock
         self.kwargs = kwargs
+        self.lock = threading.RLock()
 
 
 class UnidadTrabajo(ABC):
@@ -60,10 +61,11 @@ class UnidadTrabajo(ABC):
     def savepoint(self):
         raise NotImplementedError
 
-    def registrar_batch(self, operacion, *args, lock=Lock.PESIMISTA, **kwargs):
-        batch = Batch(operacion, lock, *args, **kwargs)
+    def registrar_batch(self, operacion, *args, **kwargs):
+        batch = Batch(operacion, *args, **kwargs)
         self.batches.append(batch)
         self._publicar_eventos_dominio(batch)
+        return batch
 
     def _publicar_eventos_dominio(self, batch):
         for evento in self._obtener_eventos(batches=[batch]):
@@ -74,50 +76,51 @@ class UnidadTrabajo(ABC):
             dispatcher.send(signal=f'{type(evento).__name__}Integracion', evento=evento)
 
 
-class UnidadTrabajoSingleton:
-    """Implementación de Singleton para la Unidad de Trabajo."""
+class UnidadTrabajoSingleton(type):
     _instance = None
-    _lock = threading.Lock()
+    _lock = threading.RLock()
 
-    @staticmethod
-    def get_instance():
+    def __call__(cls, *args, **kwargs):
+        if not cls._instance:
+            with cls._lock:
+                if not cls._instance:
+                    cls._instance = super(UnidadTrabajoSingleton, cls).__call__(*args, **kwargs)
+        return cls._instance
+
+
+class UnidadTrabajoPuerto(metaclass=UnidadTrabajoSingleton):
+
+    @classmethod
+    def commit(cls):
+        uow = cls.get_instance()
+        uow.commit()
+
+    @classmethod
+    def rollback(cls, savepoint=None):
+        uow = cls.get_instance()
+        uow.rollback(savepoint=savepoint)
+
+    @classmethod
+    def savepoint(cls):
+        uow = cls.get_instance()
+        return uow.savepoint()
+
+    @classmethod
+    def dar_savepoints(cls):
+        uow = cls.get_instance()
+        return uow.savepoints()
+
+    @classmethod
+    def registrar_batch(cls, operacion, *args, **kwargs):
+        uow = cls.get_instance()
+        return uow.registrar_batch(operacion, *args, **kwargs)
+
+    @classmethod
+    def get_instance(cls):
         """Devuelve la instancia única de UnidadTrabajoSQLAlchemy."""
-        from src.sta.config.uow import UnidadTrabajoSQLAlchemy
+        from src.canonizacion.config.uow import UnidadTrabajoSQLAlchemy
         if UnidadTrabajoSingleton._instance is None:
             with UnidadTrabajoSingleton._lock:
                 if UnidadTrabajoSingleton._instance is None:
                     UnidadTrabajoSingleton._instance = UnidadTrabajoSQLAlchemy()
         return UnidadTrabajoSingleton._instance
-
-
-def unidad_de_trabajo() -> UnidadTrabajo:
-    """Devuelve la instancia única de la unidad de trabajo."""
-    return UnidadTrabajoSingleton.get_instance()
-
-
-class UnidadTrabajoPuerto:
-
-    @staticmethod
-    def commit():
-        uow = unidad_de_trabajo()
-        uow.commit()
-
-    @staticmethod
-    def rollback(savepoint=None):
-        uow = unidad_de_trabajo()
-        uow.rollback(savepoint=savepoint)
-
-    @staticmethod
-    def savepoint():
-        uow = unidad_de_trabajo()
-        uow.savepoint()
-
-    @staticmethod
-    def dar_savepoints():
-        uow = unidad_de_trabajo()
-        return uow.savepoints()
-
-    @staticmethod
-    def registrar_batch(operacion, *args, lock=Lock.PESIMISTA, **kwargs):
-        uow = unidad_de_trabajo()
-        uow.registrar_batch(operacion, *args, lock=lock, **kwargs)

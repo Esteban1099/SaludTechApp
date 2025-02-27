@@ -4,7 +4,7 @@ services:
     image: sta
     container_name: saludtech
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       DB_URI: postgresql://postgres:postgres@database-sta:5432/backend-db
       BROKER_HOST: pulsar

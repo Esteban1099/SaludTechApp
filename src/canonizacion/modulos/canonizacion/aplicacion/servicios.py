@@ -1,16 +1,16 @@
-from src.sta.modulos.ingesta_automatizada.aplicacion.dto import ImagenMedicaDTO
-from src.sta.modulos.ingesta_automatizada.aplicacion.mapeadores import MapeadorImagenMedicaDTOEntity
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
-from src.sta.modulos.ingesta_automatizada.dominio.fabricas import FabricaIngestaAutomatizada
-from src.sta.modulos.ingesta_automatizada.dominio.repositorios import RepositorioImagenesMedicas
-from src.sta.modulos.ingesta_automatizada.infraestructura.fabricas import FabricaRepositorio
-from src.sta.seedwork.aplicacion.servicio import Servicio
+from src.canonizacion.modulos.canonizacion.aplicacion.dto import ImagenMedicaDTO
+from src.canonizacion.modulos.canonizacion.aplicacion.mapeadores import MapeadorImagenMedicaDTOEntity
+from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenMedica
+from src.canonizacion.modulos.canonizacion.dominio.fabricas import FabricaCanonizacion
+from src.canonizacion.modulos.canonizacion.dominio.repositorios import RepositorioImagenesMedicas
+from src.canonizacion.modulos.canonizacion.infraestructura.fabricas import FabricaRepositorio
+from src.canonizacion.seedwork.aplicacion.servicio import Servicio
 
 
 class ServicioImagenMedica(Servicio):
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
-        self._fabrica_ingesta_automatizada: FabricaIngestaAutomatizada = FabricaIngestaAutomatizada()
+        self._fabrica_ingesta_automatizada: FabricaCanonizacion = FabricaCanonizacion()
 
     @property
     def fabrica_repositorio(self):

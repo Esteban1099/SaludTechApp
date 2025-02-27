@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
-from src.sta.modulos.ingesta_automatizada.aplicacion.comandos.base import AgregarImagenMedicaBaseHandler
-from src.sta.modulos.ingesta_automatizada.aplicacion.dto import RegionAnatomicaDTO, DiagnosticoDTO, ImagenMedicaDTO
-from src.sta.modulos.ingesta_automatizada.aplicacion.mapeadores import MapeadorImagenMedicaDTOEntity
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
-from src.sta.modulos.ingesta_automatizada.infraestructura.repositorios import RepositorioImagenesMedicas
-from src.sta.seedwork.aplicacion.comandos import Comando
-from src.sta.seedwork.aplicacion.comandos import ejecutar_comando
-from src.sta.seedwork.infraestructura.uow import UnidadTrabajoPuerto
+from src.canonizacion.modulos.canonizacion.aplicacion.comandos.base import AgregarImagenMedicaBaseHandler
+from src.canonizacion.modulos.canonizacion.aplicacion.dto import RegionAnatomicaDTO, DiagnosticoDTO, ImagenMedicaDTO
+from src.canonizacion.modulos.canonizacion.aplicacion.mapeadores import MapeadorImagenMedicaDTOEntity
+from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenMedica
+from src.canonizacion.modulos.canonizacion.infraestructura.repositorios import RepositorioImagenesMedicas
+from src.canonizacion.seedwork.aplicacion.comandos import Comando
+from src.canonizacion.seedwork.aplicacion.comandos import ejecutar_comando
+from src.canonizacion.seedwork.infraestructura.uow import UnidadTrabajoPuerto
 
 
 @dataclass

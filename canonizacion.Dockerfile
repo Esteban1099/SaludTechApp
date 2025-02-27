@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r canonizacion-requirements.txt
 
 COPY . .
 
-CMD [ "flask", "--app", "./src/canonizacion/api", "run", "--host=0.0.0.0"]
+CMD [ "flask", "--app", "./src/canonizacion/api", "run", "--host=0.0.0.0", "--port=5002"]

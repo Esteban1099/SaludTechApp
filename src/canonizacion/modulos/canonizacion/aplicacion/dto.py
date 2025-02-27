@@ -1,6 +1,6 @@
 from dataclasses import field, dataclass
 
-from src.sta.seedwork.aplicacion.dto import DTO
+from src.canonizacion.seedwork.aplicacion.dto import DTO
 
 
 @dataclass(frozen=True)

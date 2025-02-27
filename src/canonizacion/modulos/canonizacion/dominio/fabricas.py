@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
-from src.sta.seedwork.dominio.entidades import Entidad
-from src.sta.seedwork.dominio.fabricas import Fabrica
-from src.sta.seedwork.dominio.mapeadores import Mapeador
+from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenMedica
+from src.canonizacion.seedwork.dominio.entidades import Entidad
+from src.canonizacion.seedwork.dominio.fabricas import Fabrica
+from src.canonizacion.seedwork.dominio.mapeadores import Mapeador
 
 
 @dataclass
@@ -17,7 +17,7 @@ class _FabricaImagenMedica(Fabrica):
 
 
 @dataclass
-class FabricaIngestaAutomatizada(Fabrica):
+class FabricaCanonizacion(Fabrica):
     def crear_objeto(self, objeto: any, mapeador: Mapeador = None) -> any:
         if mapeador.obtener_tipo() == ImagenMedica.__class__:
             fabrica_imagen_medica = _FabricaImagenMedica()

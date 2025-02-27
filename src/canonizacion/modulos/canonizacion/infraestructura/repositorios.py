@@ -1,15 +1,15 @@
 from uuid import UUID
 
-from src.sta.config.db import db
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
-from src.sta.modulos.ingesta_automatizada.dominio.fabricas import FabricaIngestaAutomatizada
-from src.sta.modulos.ingesta_automatizada.dominio.repositorios import RepositorioImagenesMedicas
-from src.sta.modulos.ingesta_automatizada.infraestructura.mapeadores import MapeadorImagenMedicaDTOEntity
+from src.canonizacion.config.db import db
+from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenMedica
+from src.canonizacion.modulos.canonizacion.dominio.fabricas import FabricaCanonizacion
+from src.canonizacion.modulos.canonizacion.dominio.repositorios import RepositorioImagenesMedicas
+from src.canonizacion.modulos.canonizacion.infraestructura.mapeadores import MapeadorImagenMedicaDTOEntity
 
 
 class RepositorioImagenesMedicasMySQL(RepositorioImagenesMedicas):
     def __init__(self):
-        self._fabrica_ingesta_automatizada: FabricaIngestaAutomatizada = FabricaIngestaAutomatizada()
+        self._fabrica_ingesta_automatizada: FabricaCanonizacion = FabricaCanonizacion()
 
     def obtener_por_id(self, id: UUID) -> ImagenMedica:
         # TODO

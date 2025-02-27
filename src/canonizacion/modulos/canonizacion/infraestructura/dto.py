@@ -1,4 +1,4 @@
-from src.sta.config.db import db
+from src.canonizacion.config.db import db
 
 Base = db.declarative_base()
 

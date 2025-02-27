@@ -1,5 +1,5 @@
-from src.sta.config.db import db
-from src.sta.seedwork.infraestructura.uow import UnidadTrabajo, Batch
+from src.canonizacion.config.db import db
+from src.canonizacion.seedwork.infraestructura.uow import UnidadTrabajo, Batch
 
 class UnidadTrabajoSQLAlchemy(UnidadTrabajo):
 

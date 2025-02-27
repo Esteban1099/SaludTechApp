@@ -1,8 +1,8 @@
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import Demografia, Diagnostico, RegionAnatomica, Atributo, \
+from src.canonizacion.modulos.canonizacion.dominio.entidades import Demografia, Diagnostico, RegionAnatomica, Atributo, \
     ImagenMedica
-from src.sta.modulos.ingesta_automatizada.infraestructura.dto import DemografiaDTO, DiagnosticoDTO, RegionAnatomicaDTO, \
+from src.canonizacion.modulos.canonizacion.infraestructura.dto import DemografiaDTO, DiagnosticoDTO, RegionAnatomicaDTO, \
     AtributoDTO, ImagenMedicaDTO
-from src.sta.seedwork.dominio.mapeadores import Mapeador
+from src.canonizacion.seedwork.dominio.mapeadores import Mapeador
 
 
 class MapeadorImagenMedicaDTOEntity(Mapeador):

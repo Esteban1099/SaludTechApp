@@ -1,13 +1,13 @@
 from datetime import datetime
 
-from src.sta.modulos.ingesta_automatizada.aplicacion.dto import ImagenMedicaDTO, DemografiaDTO, RegionAnatomicaDTO, \
+from src.canonizacion.modulos.canonizacion.aplicacion.dto import ImagenMedicaDTO, DemografiaDTO, RegionAnatomicaDTO, \
     DiagnosticoDTO, AtributoDTO
-from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica, Demografia, RegionAnatomica, \
+from src.canonizacion.modulos.canonizacion.dominio.entidades import ImagenMedica, Demografia, RegionAnatomica, \
     Diagnostico, Atributo
-from src.sta.modulos.ingesta_automatizada.dominio.objetos_valor import Modalidad, GrupoEdad, Sexo, Etnia, \
+from src.canonizacion.modulos.canonizacion.dominio.objetos_valor import Modalidad, GrupoEdad, Sexo, Etnia, \
     CategoriaAnatomica
-from src.sta.seedwork.aplicacion.mapeadores import Mapeador as AplMap
-from src.sta.seedwork.dominio.mapeadores import Mapeador as RepMap
+from src.canonizacion.seedwork.aplicacion.mapeadores import Mapeador as AplMap
+from src.canonizacion.seedwork.dominio.mapeadores import Mapeador as RepMap
 
 
 class MapeadorImagenMedicaDTOJson(AplMap):
