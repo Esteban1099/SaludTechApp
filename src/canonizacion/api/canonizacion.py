@@ -8,7 +8,7 @@ from src.canonizacion.modulos.canonizacion.infraestructura.despachadores import 
 from src.canonizacion.seedwork.dominio.excepciones import ExcepcionDominio
 from src.canonizacion.seedwork.presentacion import api
 
-blueprint = api.crear_blueprint('ingesta_automatizada', '/ingesta_automatizada')
+blueprint = api.crear_blueprint('canonizacion', '/canonizacion')
 
 
 @blueprint.route('/agregar_imagen_medica-comando', methods=['POST'])

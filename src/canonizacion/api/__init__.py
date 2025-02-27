@@ -17,15 +17,15 @@ def importar_modelos_alchemy():
 
 def iniciar_hilos(app):
     """Función para iniciar los hilos de suscripción dentro del contexto de Flask."""
-    import src.canonizacion.modulos.canonizacion.infraestructura.consumidores as ingesta_automatizada
+    import src.canonizacion.modulos.canonizacion.infraestructura.consumidores as consumidores_canonizacion
 
     def run_suscribirse_a_eventos():
         with app.app_context():  # Asegura que Flask tenga contexto en este hilo
-            ingesta_automatizada.suscribirse_a_eventos()
+            consumidores_canonizacion.suscribirse_a_eventos()
 
     def run_suscribirse_a_comandos():
         with app.app_context():  # Asegura que Flask tenga contexto en este hilo
-            ingesta_automatizada.suscribirse_a_comandos()
+            consumidores_canonizacion.suscribirse_a_comandos()
 
     # Iniciar los hilos en modo daemon (para que terminen cuando la app se cierre)
     threading.Thread(target=run_suscribirse_a_eventos, daemon=True).start()
