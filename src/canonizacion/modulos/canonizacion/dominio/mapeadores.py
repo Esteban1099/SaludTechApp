@@ -60,12 +60,17 @@ class MapeadorComandoAgregarImagenMedica(InfMap):
         )
 
     def _procesar_demografia_record(self, demografia_record: DemografiaRecord):
+        # Convertir los valores a la forma correcta para los enums
+        grupo_edad = demografia_record.grupo_edad
+        sexo = demografia_record.sexo
+        etnicidad = demografia_record.etnicidad
+        
         return DemografiaDTO(
             id=demografia_record.id,
             edad=demografia_record.edad,
-            grupo_edad=demografia_record.grupo_edad,
-            sexo=demografia_record.sexo,
-            etnicidad=demografia_record.etnicidad
+            grupo_edad=grupo_edad,
+            sexo=sexo,
+            etnicidad=etnicidad
         )
 
     def _procesar_atributos_record(self, atributos_record: list[AtributoRecord]):
