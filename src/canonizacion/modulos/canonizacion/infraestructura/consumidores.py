@@ -34,7 +34,8 @@ def suscribirse_a_eventos():
             
             # Crear una imagen médica con los datos recibidos
             imagen_medica = ImagenMedica()
-            imagen_medica.id = uuid.UUID(datos.id)
+            # No intentamos modificar el ID, ya que se genera automáticamente en el constructor
+            # imagen_medica.id = uuid.UUID(datos.id)
             imagen_medica.modalidad = Modalidad(datos.modalidad)
             imagen_medica.fecha_creacion = datetime.fromisoformat(datos.fecha_creacion)
             imagen_medica.estado = EstadoImagenMedica.CREADA

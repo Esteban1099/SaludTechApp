@@ -1,0 +1,31 @@
+{
+  "id": "img-001",
+  "modalidad": "Ultra sonido",
+  "fecha_creacion": "2025-02-27T04:00:00Z",
+  "regiones_anatomicas": [
+    {
+      "id": "reg-001",
+      "categoria": "Tórax",
+      "especificacion": "Pulmones"
+    }
+  ],
+  "diagnostico": {
+    "id": "diag-001",
+    "nombre": "Neumonía",
+    "descripcion": "Infección pulmonar",
+    "demografia": {
+      "id": "demo-001",
+      "edad": 45,
+      "grupo_edad": "Adulto",
+      "sexo": "Masculino",
+      "etnicidad": "Latino"
+    },
+    "atributos": [
+      {
+        "id": "attr-001",
+        "nombre": "Severidad",
+        "descripcion": "Moderada"
+      }
+    ]
+  }
+} 

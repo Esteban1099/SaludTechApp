@@ -23,6 +23,7 @@ class CategoriaAnatomica(Enum):
 class GrupoEdad(Enum):
     NEONATAL = "Neonatal"
     PEDIATRICO = "Pediatrico"
+    INFANTIL = "Infantil"
     ADULTO = "Adulto"
     GERIATRICO = "Geriatrico"
 
