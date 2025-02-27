@@ -13,6 +13,19 @@ services:
         condition: service_healthy
       pulsar:
         condition: service_healthy
+  canonizacion:
+    image: canonizacion
+    container_name: canonizacion
+    ports:
+      - "5002:5002"
+    environment:
+      DB_URI: postgresql://postgres:postgres@database:5433/backend-db
+      BROKER_HOST: pulsar
+    depends_on:
+      database:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
   notificaciones:
     image: notificaciones
     container_name: notificaciones
@@ -34,9 +47,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  database:
+  database-sta:
     image: postgres
-    container_name: postgres
+    container_name: sta-db
     ports:
       - "5432:5432"
     environment:
@@ -49,4 +62,26 @@ services:
       timeout: 5s
       retries: 5
 
+  database-canonizacion:
+    image: postgres
+    container_name: canonizacion-db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: backend-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
 
+
+networks:
+  default:
+    name: saludtech-network
+
+volumes:
+  sta-db-data:
+  canonizacion-db-data:
