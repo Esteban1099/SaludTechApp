@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   sta:
     image: sta
@@ -9,6 +11,22 @@ services:
       BROKER_HOST: pulsar
     depends_on:
       database:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
+    networks:
+      - saludtech-network
+
+  sta3:
+    image: sta3
+    container_name: saludtech3
+    ports:
+      - "5003:5003"
+    environment:
+      DB_URI: postgresql://postgres:postgres@database3:5431/backend-db
+      BROKER_HOST: pulsar
+    depends_on:
+      database3:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -61,8 +79,28 @@ services:
     networks:
       - saludtech-network
 
+  database3:
+    image: postgres
+    container_name: postgres3
+    ports:
+      - "5431:5431"
+    environment:
+      POSTGRES_DB: backend-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres3-data:/var/lib/postgresql/data
+    networks:
+      - saludtech-network
+
 networks:
   saludtech-network:
 
 volumes:
   postgres-data:
+  postgres3-data:
