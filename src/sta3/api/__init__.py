@@ -36,7 +36,7 @@ def create_app():
     aplicacion = Flask(__name__)
 
     aplicacion.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI',
-                                                             'sqlite:///' + os.path.join(basedir, 'database.db'))
+                                                             'sqlite:///' + os.path.join(basedir, 'database_sta3.db'))
     aplicacion.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     aplicacion.secret_key = '9d58f98f-3ae8-4149-a09f-3a8c2012e32c'
     aplicacion.config['SESSION_TYPE'] = 'filesystem'

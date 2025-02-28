@@ -52,7 +52,7 @@ class AtributoDTO(db.Model):
 class ImagenMedicaDTO(db.Model):
     __tablename__ = "imagenes_medicas"
     id = db.Column(db.String, primary_key=True, unique=True)
-    url = db.Column(db.String, nullable=False)
+    url = db.Column(db.String, nullable=True)
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     modalidad = db.Column(db.String, nullable=False, primary_key=True)
 
