@@ -16,6 +16,9 @@ docker build -f sta.Dockerfile -t sta .
 ```bash
 docker build -f notificaciones.Dockerfile -t notificaciones .
 ```
+```bash
+docker build -f bff.Dockerfile -t bff .
+```
 3. Ejecutar el siguiente comando para desplegar toda la arquitectura
 ```bash
 docker compose up -d

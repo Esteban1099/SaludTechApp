@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "1a28d5db-8d94-4d5a-be2b-4620afcfc4c3",
+		"name": "SaludTech - BFF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4253512"
+	},
+	"item": [
+		{
+			"name": "Imagen Medica - Agregar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"diagnostico\": {\r\n        \"nombre\": \"Tos\",\r\n        \"descripcion\": \"Tos seca persistente\",\r\n        \"demografia\": {\r\n            \"edad\": 1,\r\n            \"grupo_edad\": \"Neonatal\",\r\n            \"sexo\": \"Masculino\",\r\n            \"etnicidad\": \"Latino\"\r\n        },\r\n        \"atributos\": [\r\n            {\r\n                \"nombre\": \"Tos\",\r\n                \"descripcion\": \"Seca, sin producción de flema\"\r\n            },\r\n            {\r\n                \"nombre\": \"Frecuencia\",\r\n                \"descripcion\": \"Persistente durante el día y la noche\"\r\n            },\r\n            {\r\n                \"nombre\": \"Duración\",\r\n                \"descripcion\": \"Más de 3 semanas (crónica)\"\r\n            },\r\n            {\r\n                \"nombre\": \"Sonido\",\r\n                \"descripcion\": \"Ronca y áspera\"\r\n            },\r\n            {\r\n                \"nombre\": \"Síntomas Asociados\",\r\n                \"descripcion\": \"Dolor de garganta, fiebre, fatiga\"\r\n            },\r\n            {\r\n                \"nombre\": \"Desencadenantes\",\r\n                \"descripcion\": \"Alérgenos, aire frío, ejercicio\"\r\n            }\r\n        ]\r\n    },\r\n    \"modalidad\": \"Rayos X\",\r\n    \"fecha_creacion\": \"2022-11-22T13:10:00Z\",\r\n    \"regiones_anatomicas\": [\r\n        {\r\n            \"categoria\": \"Cabeza y cuello\",\r\n            \"especificacion\": \"Test\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5001/bff/ingesta_automatizada/imagen_medica",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"bff",
+						"ingesta_automatizada",
+						"imagen_medica"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Imagen Medica - Obtener por id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5001/bff/ingesta_automatizada/imagen_medica/:imagen_medica_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"bff",
+						"ingesta_automatizada",
+						"imagen_medica",
+						":imagen_medica_id"
+					],
+					"variable": [
+						{
+							"key": "imagen_medica_id",
+							"value": "b1440e41-3070-4424-b581-f3ee0f8e6655"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

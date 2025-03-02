@@ -34,6 +34,7 @@ def iniciar_hilos(app):
 
 def create_app():
     aplicacion = Flask(__name__)
+    aplicacion.debug = True
 
     aplicacion.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI',
                                                              'sqlite:///' + os.path.join(basedir, 'database.db'))

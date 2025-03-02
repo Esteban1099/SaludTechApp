@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "1a28d5db-8d94-4d5a-be2b-4620afcfc4c3",
+		"_postman_id": "5cc62303-1b7b-469e-bed9-d6e1edb8d385",
 		"name": "SaludTech",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "4253512"
 	},
 	"item": [
 		{
-			"name": "Comando",
+			"name": "Imagen Medica - Comando",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -21,7 +21,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/ingesta_automatizada/agregar_imagen_medica-comando",
+					"raw": "http://localhost:5000/ingesta_automatizada/imagen_medica-comando",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -29,7 +29,34 @@
 					"port": "5000",
 					"path": [
 						"ingesta_automatizada",
-						"agregar_imagen_medica-comando"
+						"imagen_medica-comando"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Imagen Medica - Query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/ingesta_automatizada/imagen_medica-query/:imagen_medica_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ingesta_automatizada",
+						"imagen_medica-query",
+						":imagen_medica_id"
+					],
+					"variable": [
+						{
+							"key": "imagen_medica_id",
+							"value": "c20d9928-3dd7-46d7-965c-a6393e574cfa"
+						}
 					]
 				}
 			},
