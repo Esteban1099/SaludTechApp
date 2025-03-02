@@ -1,0 +1,6 @@
+from pydispatch import dispatcher
+
+from src.sta3.modulos.procesamiento_imagen.aplicacion.handlers import HandlerImagenMedicaIntegracion
+from src.sta3.modulos.procesamiento_imagen.dominio.eventos import ImagenMedicaProcesada
+
+dispatcher.connect(HandlerImagenMedicaIntegracion.handle_imagen_medica_procesada, signal=f'{ImagenMedicaProcesada.__name__}Integracion')

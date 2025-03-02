@@ -25,6 +25,21 @@ services:
         condition: service_healthy
       pulsar:
         condition: service_healthy
+
+  sta3:
+    image: sta3
+    container_name: saludtech3
+    ports:
+      - "5003:5003"
+    environment:
+      DB_URI: postgresql://postgres:postgres@database3:5431/backend-db
+      BROKER_HOST: pulsar
+    depends_on:
+      database3:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
+
   bff:
     image: bff
     container_name: backend-for-frontend
@@ -36,6 +51,8 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
+
+
   notificaciones:
     image: notificaciones
     container_name: notificaciones
@@ -44,6 +61,7 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
+
   pulsar:
     image: apachepulsar/pulsar:latest
     container_name: pulsar
@@ -57,7 +75,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  database-sta:
+
+  database:
     image: postgres
     container_name: sta-db
     ports:
