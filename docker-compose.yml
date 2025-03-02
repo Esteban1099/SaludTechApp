@@ -78,7 +78,7 @@ services:
 
   database:
     image: postgres
-    container_name: sta-db
+    container_name: postgres
     ports:
       - "5432:5432"
     environment:
@@ -90,8 +90,21 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
-    volumes:
-      - sta-db-data:/var/lib/postgresql/data
+
+  database3:
+    image: postgres
+    container_name: postgres3
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_DB: backend-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
 
   database-canonizacion:
     image: postgres
@@ -109,11 +122,3 @@ services:
       retries: 5
     volumes:
       - canonizacion-db-data:/var/lib/postgresql/data
-
-networks:
-  default:
-    name: saludtech-network
-
-volumes:
-  sta-db-data:
-  canonizacion-db-data:
