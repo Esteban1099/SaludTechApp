@@ -5,10 +5,10 @@ services:
     ports:
       - "5001:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database-sta:5432/backend-db
+      DB_URI: postgresql://postgres:postgres@database:5432/backend-db
       BROKER_HOST: pulsar
     depends_on:
-      database-sta:
+      database:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -32,7 +32,7 @@ services:
     ports:
       - "5003:5003"
     environment:
-      DB_URI: postgresql://postgres:postgres@database3:5431/backend-db
+      DB_URI: postgresql://postgres:postgres@database3:5432/backend-db
       BROKER_HOST: pulsar
     depends_on:
       database3:
@@ -44,7 +44,7 @@ services:
     image: bff
     container_name: backend-for-frontend
     ports:
-      - "5001:5000"
+      - "5004:5000"
     environment:
       BROKER_HOST: pulsar
       STA_HOST: sta
@@ -120,5 +120,3 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
-    volumes:
-      - canonizacion-db-data:/var/lib/postgresql/data
