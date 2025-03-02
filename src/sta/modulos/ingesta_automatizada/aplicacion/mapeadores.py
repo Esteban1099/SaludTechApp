@@ -67,9 +67,9 @@ class MapeadorImagenMedicaDTOEntity(RepMap):
         return DemografiaDTO(
             id=str(demografia.id),
             edad=demografia.edad,
-            grupo_edad=demografia.grupo_edad.value,
-            sexo=demografia.sexo.value,
-            etnicidad=demografia.etnicidad.value)
+            grupo_edad=str(demografia.grupo_edad),
+            sexo=str(demografia.sexo),
+            etnicidad=str(demografia.etnicidad))
 
     def _procesar_diagnostico(self, diagnostico: Diagnostico) -> DiagnosticoDTO:
         return DiagnosticoDTO(
@@ -85,7 +85,7 @@ class MapeadorImagenMedicaDTOEntity(RepMap):
             regiones_anatomicas_dto.append(
                 RegionAnatomicaDTO(
                     id=str(region_anatomica.id),
-                    categoria=region_anatomica.categoria.value,
+                    categoria=str(region_anatomica.categoria),
                     especificacion=region_anatomica.especificacion
                 )
             )
@@ -144,7 +144,7 @@ class MapeadorImagenMedicaDTOEntity(RepMap):
     def entidad_a_dto(self, entidad: ImagenMedica) -> ImagenMedicaDTO:
         imagen_medica_dto = ImagenMedicaDTO(
             id=str(entidad.id),
-            modalidad=entidad.modalidad.value,
+            modalidad=str(entidad.modalidad),
             fecha_creacion=str(entidad.fecha_creacion),
             regiones_anatomicas=self._procesar_regiones_anatomicas(entidad.regiones_anatomicas),
             diagnostico=self._procesar_diagnostico(entidad.diagnostico)
