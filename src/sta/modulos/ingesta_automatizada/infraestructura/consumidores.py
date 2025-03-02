@@ -1,4 +1,5 @@
 import logging
+import sys
 import traceback
 
 import _pulsar
@@ -22,7 +23,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido: {mensaje.value().data}')
+            print(f'Evento recibido: {mensaje.value().data}', sys.stdout)
             consumidor.acknowledge(mensaje)
 
         cliente.close()
@@ -43,7 +44,7 @@ def suscribirse_a_comandos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Comando recibido: {mensaje.value().data}')
+            print(f'Comando recibido: {mensaje.value().data}', file=sys.stdout)
             mapeador = MapeadorComandoAgregarImagenMedica()
             comando = mapeador.comando_integracion_a_comando(mensaje.value())
             ejecutar_comando(comando)
