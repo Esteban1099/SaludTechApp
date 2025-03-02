@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   sta:
     image: sta
@@ -14,8 +12,6 @@ services:
         condition: service_healthy
       pulsar:
         condition: service_healthy
-    networks:
-      - saludtech-network
 
   sta3:
     image: sta3
@@ -30,8 +26,19 @@ services:
         condition: service_healthy
       pulsar:
         condition: service_healthy
-    networks:
-      - saludtech-network
+
+  bff:
+    image: bff
+    container_name: backend-for-frontend
+    ports:
+      - "5001:5000"
+    environment:
+      BROKER_HOST: pulsar
+      STA_HOST: sta
+    depends_on:
+      pulsar:
+        condition: service_healthy
+
 
   notificaciones:
     image: notificaciones
@@ -41,8 +48,6 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
-    networks:
-      - saludtech-network
 
   pulsar:
     image: apachepulsar/pulsar:latest
@@ -57,8 +62,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    networks:
-      - saludtech-network
 
   database:
     image: postgres
@@ -74,16 +77,12 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - saludtech-network
 
   database3:
     image: postgres
     container_name: postgres3
     ports:
-      - "5431:5431"
+      - "5431:5432"
     environment:
       POSTGRES_DB: backend-db
       POSTGRES_USER: postgres
@@ -93,14 +92,3 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
-    volumes:
-      - postgres3-data:/var/lib/postgresql/data
-    networks:
-      - saludtech-network
-
-networks:
-  saludtech-network:
-
-volumes:
-  postgres-data:
-  postgres3-data:

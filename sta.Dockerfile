@@ -9,4 +9,6 @@ RUN pip install --no-cache-dir -r sta-requirements.txt
 
 COPY . .
 
+ENV PYTHONUNBUFFERED=1
+
 CMD [ "flask", "--app", "./src/sta/api", "run", "--host=0.0.0.0"]

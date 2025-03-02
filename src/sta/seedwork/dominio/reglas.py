@@ -28,6 +28,6 @@ class IdEntidadEsInmutable(ReglaNegocio):
     def es_valido(self) -> bool:
         try:
             if self.entidad._id:
-                return False
+                return True
         except AttributeError:
             return True

@@ -4,6 +4,7 @@ from src.sta.config.db import db
 from src.sta.modulos.ingesta_automatizada.dominio.entidades import ImagenMedica
 from src.sta.modulos.ingesta_automatizada.dominio.fabricas import FabricaIngestaAutomatizada
 from src.sta.modulos.ingesta_automatizada.dominio.repositorios import RepositorioImagenesMedicas
+from src.sta.modulos.ingesta_automatizada.infraestructura.dto import ImagenMedicaDTO
 from src.sta.modulos.ingesta_automatizada.infraestructura.mapeadores import MapeadorImagenMedicaDTOEntity
 
 
@@ -12,8 +13,8 @@ class RepositorioImagenesMedicasMySQL(RepositorioImagenesMedicas):
         self._fabrica_ingesta_automatizada: FabricaIngestaAutomatizada = FabricaIngestaAutomatizada()
 
     def obtener_por_id(self, id: UUID) -> ImagenMedica:
-        # TODO
-        raise NotImplementedError
+        imagen_medica_dto = db.session.query(ImagenMedicaDTO).filter_by(id=id).first()
+        return self._fabrica_ingesta_automatizada.crear_objeto(imagen_medica_dto, MapeadorImagenMedicaDTOEntity())
 
     def obtener_todos(self) -> list[ImagenMedica]:
         # TODO

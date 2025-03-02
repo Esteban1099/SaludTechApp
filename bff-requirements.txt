@@ -1,0 +1,5 @@
+Flask==2.2.2
+Werkzeug==2.2.2
+pulsar-client==3.5.0
+pulsar-client[avro]==3.5.0
+requests==2.28.2
