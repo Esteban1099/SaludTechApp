@@ -9,9 +9,12 @@ NO se espera tener el servicio completamente desarrollado, solo los comandos, co
 # Instruccion de ejecucion del proyecto
 
 1. Clonar el repositorio
-2. Crear imagenes Docker para sta y notificaciones
+2. Crear imagenes Docker para sta, sta3, notificaciones y bff
 ```bash
 docker build -f sta.Dockerfile -t sta .
+```
+```bash
+docker build -f sta.Dockerfile -t sta3 .
 ```
 ```bash
 docker build -f notificaciones.Dockerfile -t notificaciones .
