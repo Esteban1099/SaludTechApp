@@ -2,9 +2,9 @@ import datetime
 import pulsar
 from pulsar.schema import *
 
-from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.comandos import ComandoAgregarImagenMedica
-from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import ImagenMedicaAgregadaPayload, EventoImagenMedicaAgregada
-from src.sta.seedwork.infraestructura import utils
+from src.sta3.modulos.procesamiento_imagen.infraestructura.schema.v1.comandos import ComandoProcesarImagenMedica
+from src.sta3.modulos.procesamiento_imagen.infraestructura.schema.v1.eventos import ImagenMedicaProcesadaPayload, EventoImagenMedicaProcesada
+from src.sta3.seedwork.infraestructura import utils
 
 epoch = datetime.datetime.utcfromtimestamp(0)
 
@@ -36,24 +36,25 @@ class Despachador:
 
     def publicar_evento(self, evento, topico):
         """Publica un evento en el topic de Pulsar."""
-        payload = ImagenMedicaAgregadaPayload(
+        payload = ImagenMedicaProcesadaPayload(
             id=str(evento.id),
+            url=str(evento.url),
             modalidad=evento.modalidad,
             fecha_creacion=str(evento.fecha_creacion),
             estado=evento.estado
         )
-        evento_integracion = EventoImagenMedicaAgregada(data=payload)
-        self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoImagenMedicaAgregada))
+        evento_integracion = EventoImagenMedicaProcesada(data=payload)
+        self._publicar_mensaje(evento_integracion, topico, AvroSchema(EventoImagenMedicaProcesada))
 
     def publicar_comando(self, comando, topico):
         """Publica un comando en el topic de Pulsar."""
         mapeador = self._obtener_mapeador()
-        self._publicar_mensaje(mapeador.comando_a_comando_integracion(comando), topico, AvroSchema(ComandoAgregarImagenMedica))
+        self._publicar_mensaje(mapeador.comando_a_comando_integracion(comando), topico, AvroSchema(ComandoProcesarImagenMedica))
 
     def _obtener_mapeador(self):
         """Carga el mapeador solo cuando se necesita."""
-        from src.sta.modulos.ingesta_automatizada.dominio.mapeadores import MapeadorComandoAgregarImagenMedica
-        return MapeadorComandoAgregarImagenMedica()
+        from src.sta3.modulos.procesamiento_imagen.dominio.mapeadores import MapeadorComandoProcesarImagenMedica
+        return MapeadorComandoProcesarImagenMedica()
 
     def close(self):
         """Cierra los productores y el cliente Pulsar correctamente."""
