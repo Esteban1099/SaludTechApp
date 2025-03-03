@@ -1,0 +1,7 @@
+from pydispatch import dispatcher
+
+from src.canonizacion.modulos.canonizacion.aplicacion.handlers import HandlerImagenMedicaIntegracion
+from src.canonizacion.modulos.canonizacion.dominio.eventos import ImagenMedicaAgregada, ImagenMedicaCanonizada
+
+dispatcher.connect(HandlerImagenMedicaIntegracion.handle_imagen_medica_agregada, signal=f'{ImagenMedicaAgregada.__name__}Integracion')
+dispatcher.connect(HandlerImagenMedicaIntegracion.handle_imagen_medica_canonizada, signal=f'{ImagenMedicaCanonizada.__name__}Integracion')

@@ -5,10 +5,23 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database:5432/backend-db
+      DB_URI: postgresql://postgres:postgres@database:5432/backend-sta-db
       BROKER_HOST: pulsar
     depends_on:
       database:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
+  canonizacion:
+    image: canonizacion
+    container_name: canonizacion
+    ports:
+      - "5002:5002"
+    environment:
+      DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-canonizacion-db
+      BROKER_HOST: pulsar
+    depends_on:
+      database-canonizacion:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -17,9 +30,9 @@ services:
     image: sta3
     container_name: saludtech3
     ports:
-      - "5003:5003"
+      - "5003:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database3:5431/backend-db
+      DB_URI: postgresql://postgres:postgres@database3:5432/backend-sta3-db
       BROKER_HOST: pulsar
     depends_on:
       database3:
@@ -67,9 +80,9 @@ services:
     image: postgres
     container_name: postgres
     ports:
-      - "5432:5432"
+      - "5480:5432"
     environment:
-      POSTGRES_DB: backend-db
+      POSTGRES_DB: backend-sta-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
@@ -82,9 +95,24 @@ services:
     image: postgres
     container_name: postgres3
     ports:
-      - "5431:5432"
+      - "5481:5432"
     environment:
-      POSTGRES_DB: backend-db
+      POSTGRES_DB: backend-sta3-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+  database-canonizacion:
+    image: postgres
+    container_name: canonizacion-db
+    ports:
+      - "5482:5432"
+    environment:
+      POSTGRES_DB: backend-canonizacion-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
