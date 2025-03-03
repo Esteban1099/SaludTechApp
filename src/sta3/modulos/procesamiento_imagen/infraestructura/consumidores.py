@@ -1,4 +1,5 @@
 import logging
+import sys
 import traceback
 import uuid
 from datetime import datetime
@@ -30,7 +31,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido: {mensaje.value().data}')
+            print(f'Evento recibido: {mensaje.value().data}', sys.stdout)
 
             json_data = {
                 "diagnostico": {
@@ -101,7 +102,7 @@ def suscribirse_a_eventos():
             despachador = Despachador()
             despachador.publicar_comando(comando=comando, topico="comandos-imagen-medica-procesar")
             consumidor.acknowledge(mensaje)
-            print(f'------ Evento procesado y se ejecutó el comando: {comando}')
+            print(f'Evento procesado y se ejecutó el comando: {comando}', sys.stdout)
 
         cliente.close()
     except:
@@ -121,7 +122,7 @@ def suscribirse_a_comandos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Comando recibido: {mensaje.value().data}')
+            print(f'Comando recibido: {mensaje.value().data}', sys.stdout)
             mapeador = MapeadorComandoProcesarImagenMedica()
             comando = mapeador.comando_integracion_a_comando(mensaje.value())
             ejecutar_comando(comando)

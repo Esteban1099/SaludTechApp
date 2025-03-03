@@ -5,4 +5,6 @@ RUN pip install --no-cache-dir -r notificaciones-requirements.txt
 
 COPY . .
 
+ENV PYTHONUNBUFFERED=1
+
 CMD [ "python", "./src/notificaciones/main.py" ]
