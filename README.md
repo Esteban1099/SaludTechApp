@@ -46,6 +46,13 @@ Como parte del cumplimiento con regulaciones como HIPAA, los datos deben almacen
 Implementar monitoreo en tiempo real para prevenir fallos antes de que afecten a los usuarios.
 ![image](https://github.com/user-attachments/assets/515b6fe6-8cf4-4f18-bf1a-8f544e2b86fa)
 
+# División de trabajo
+
+1. BFF - Johanna Beltrán
+2. Ingesta automatizada (STA) y notificación - Alejandro Martinez
+3. Canonización - Fernando Garzón
+4. Procesamiento imagen (STA3) - Esteban Reyes
+
 
 
 
