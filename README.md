@@ -53,6 +53,9 @@ Implementar monitoreo en tiempo real para prevenir fallos antes de que afecten a
 3. Canonización - Fernando Garzón
 4. Procesamiento imagen (STA3) - Esteban Reyes
 
+# Video Semana 6
+[Entrega semana 6](https://drive.google.com/file/d/1M952Uk35ohT4_VIlSeWzb7hRNUSRGCMn/view?usp=drive_link)
+
 
 
 
