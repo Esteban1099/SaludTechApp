@@ -8,7 +8,7 @@ import _pulsar
 import pulsar
 from pulsar.schema import *
 
-from src.sta.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import EventoImagenMedicaAgregada
+from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.eventos import EventoImagenMedicaCanonizada
 from src.sta3.modulos.procesamiento_imagen.aplicacion.comandos.procesar_imagen_medica import ProcesarImagenMedica
 from src.sta3.modulos.procesamiento_imagen.dominio.mapeadores import MapeadorComandoProcesarImagenMedica
 from src.sta3.modulos.procesamiento_imagen.infraestructura.despachadores import Despachador
@@ -25,9 +25,9 @@ def suscribirse_a_eventos():
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('eventos-imagen-medica', consumer_type=_pulsar.ConsumerType.Shared,
-                                       subscription_name='sta-sub-eventos-imagen-medica',
-                                       schema=AvroSchema(EventoImagenMedicaAgregada))
+        consumidor = cliente.subscribe('eventos-imagen-canonizada', consumer_type=_pulsar.ConsumerType.Shared,
+                                       subscription_name='sta-sub-eventos-imagen-canonizada',
+                                       schema=AvroSchema(EventoImagenMedicaCanonizada))
 
         while True:
             mensaje = consumidor.receive()

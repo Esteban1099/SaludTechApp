@@ -48,4 +48,4 @@ class CanonizarImagenMedicaHandler(CanonizarImagenMedicaBaseHandler):
 @ejecutar_comando.register(CanonizarImagenMedica)
 def ejecutar_comando_canonizar_imagen_medica(comando: CanonizarImagenMedica):
     handler = CanonizarImagenMedicaHandler()
-    handler.handle(comando)
+    handler.handle(comando) 
