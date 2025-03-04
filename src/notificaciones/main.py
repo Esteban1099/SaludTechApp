@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import uuid
 
@@ -42,10 +43,10 @@ consumer = client.subscribe('eventos-imagen-medica', consumer_type=_pulsar.Consu
 while True:
     msg = consumer.receive()
     print('=========================================')
-    print("Mensaje Recibido: '%s'" % msg.value().data)
+    print("Mensaje Recibido: '%s'" % msg.value().data, sys.stdout)
     print('=========================================')
 
-    print('==== Envía correo a usuario ====')
+    print('==== Envía correo a usuario ====', sys.stdout)
 
     consumer.acknowledge(msg)
 

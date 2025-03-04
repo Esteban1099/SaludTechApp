@@ -3,9 +3,9 @@ services:
     image: sta
     container_name: saludtech
     ports:
-      - "5001:5000"
+      - "5000:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database:5432/backend-db
+      DB_URI: postgresql://postgres:postgres@database:5432/backend-sta-db
       BROKER_HOST: pulsar
     depends_on:
       database:
@@ -18,7 +18,7 @@ services:
     ports:
       - "5002:5002"
     environment:
-      DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-db
+      DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-canonizacion-db
       BROKER_HOST: pulsar
     depends_on:
       database-canonizacion:
@@ -30,9 +30,9 @@ services:
     image: sta3
     container_name: saludtech3
     ports:
-      - "5003:5003"
+      - "5003:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database3:5432/backend-db
+      DB_URI: postgresql://postgres:postgres@database3:5432/backend-sta3-db
       BROKER_HOST: pulsar
     depends_on:
       database3:
@@ -44,7 +44,7 @@ services:
     image: bff
     container_name: backend-for-frontend
     ports:
-      - "5004:5000"
+      - "5001:5000"
     environment:
       BROKER_HOST: pulsar
       STA_HOST: sta
@@ -80,9 +80,9 @@ services:
     image: postgres
     container_name: postgres
     ports:
-      - "5432:5432"
+      - "5480:5432"
     environment:
-      POSTGRES_DB: backend-db
+      POSTGRES_DB: backend-sta-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
@@ -95,9 +95,9 @@ services:
     image: postgres
     container_name: postgres3
     ports:
-      - "5431:5432"
+      - "5481:5432"
     environment:
-      POSTGRES_DB: backend-db
+      POSTGRES_DB: backend-sta3-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
@@ -110,9 +110,9 @@ services:
     image: postgres
     container_name: canonizacion-db
     ports:
-      - "5433:5432"
+      - "5482:5432"
     environment:
-      POSTGRES_DB: backend-db
+      POSTGRES_DB: backend-canonizacion-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:
