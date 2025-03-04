@@ -180,3 +180,4 @@ cython_debug/
 /test_imagen_medica_final2.json
 /test_imagen_medica_final3.json
 /test_imagen_medica_nueva.json
+test.sh
