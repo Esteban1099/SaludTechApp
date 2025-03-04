@@ -7,9 +7,11 @@ import _pulsar
 import pulsar
 from pulsar.schema import *
 
+from src.canonizacion.modulos.canonizacion.aplicacion.comandos.agregar_imagen_medica import AgregarImagenMedica
+from src.canonizacion.modulos.canonizacion.aplicacion.dto import DemografiaDTO, AtributoDTO, DiagnosticoDTO, RegionAnatomicaDTO
 from src.canonizacion.modulos.canonizacion.dominio.mapeadores import MapeadorComandoAgregarImagenMedica
 from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.comandos import ComandoAgregarImagenMedica
-from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.eventos import EventoImagenMedicaAgregada
+from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.eventos import EventoImagenMedicaAgregada, EventoImagenMedicaCanonizada
 from src.canonizacion.seedwork.aplicacion.comandos import ejecutar_comando
 from src.canonizacion.seedwork.infraestructura import utils
 from src.canonizacion.modulos.canonizacion.infraestructura.despachadores import Despachador
@@ -32,26 +34,81 @@ def suscribirse_a_eventos():
             # Procesar el evento recibido
             datos = mensaje.value().data
             
-            # Crear una imagen médica con los datos recibidos
-            imagen_medica = ImagenMedica()
-            # No intentamos modificar el ID, ya que se genera automáticamente en el constructor
-            # imagen_medica.id = uuid.UUID(datos.id)
-            imagen_medica.modalidad = Modalidad(datos.modalidad)
-            imagen_medica.fecha_creacion = datetime.fromisoformat(datos.fecha_creacion)
-            imagen_medica.estado = EstadoImagenMedica.CREADA
+            # Extraer el valor real de la enumeración si viene con prefijo (ej: "Modalidad.RAYOS_X" -> "RAYOS_X")
+            modalidad = datos.modalidad
+            if '.' in modalidad:
+                modalidad = modalidad.split('.')[-1]
             
-            # Canonizar la imagen médica
-            imagen_medica.canonizar_imagen_medica()
+            # Crear DTOs para el comando
+            # Datos de ejemplo para pruebas
+            demografia_dto = DemografiaDTO(
+                edad=1,
+                grupo_edad="NEONATAL",
+                sexo="MASCULINO",
+                etnicidad="LATINO"
+            )
             
-            # Publicar el evento de canonización
+            atributos_dto = [
+                AtributoDTO(
+                    nombre="Tos",
+                    descripcion="Seca, sin producción de flema"
+                ),
+                AtributoDTO(
+                    nombre="Frecuencia",
+                    descripcion="Persistente durante el día y la noche"
+                ),
+                AtributoDTO(
+                    nombre="Duración",
+                    descripcion="Más de 3 semanas (crónica)"
+                ),
+                AtributoDTO(
+                    nombre="Sonido",
+                    descripcion="Ronca y áspera"
+                ),
+                AtributoDTO(
+                    nombre="Síntomas Asociados",
+                    descripcion="Dolor de garganta, fiebre, fatiga"
+                ),
+                AtributoDTO(
+                    nombre="Desencadenantes",
+                    descripcion="Alérgenos, aire frío, ejercicio"
+                )
+            ]
+            
+            diagnostico_dto = DiagnosticoDTO(
+                nombre="Tos seca persistente",
+                descripcion="Diagnóstico generado automáticamente",
+                demografia=demografia_dto,
+                atributos=atributos_dto
+            )
+            
+            regiones_anatomicas_dto = [
+                RegionAnatomicaDTO(
+                    categoria="CABEZA_CUELLO",
+                    especificacion="Test"
+                )
+            ]
+            
+            # Crear el comando
+            comando = AgregarImagenMedica(
+                id=datos.id,
+                modalidad=modalidad,
+                fecha_creacion=datos.fecha_creacion,
+                regiones_anatomicas=regiones_anatomicas_dto,
+                diagnostico=diagnostico_dto
+            )
+            
+            # Publicar el comando
             despachador = Despachador()
-            despachador.publicar_evento(evento=imagen_medica.eventos[-1], topico='eventos-imagen-canonizada')
+            despachador.publicar_comando(comando=comando, topico="comandos-imagen-medica")
+            
+            print(f'Comando publicado en el tópico comandos-imagen-medica: {comando}')
             
             consumidor.acknowledge(mensaje)
 
         cliente.close()
-    except:
-        logging.error('ERROR: Suscribiendose al tópico de eventos!')
+    except Exception as e:
+        logging.error(f'ERROR: Suscribiendose al tópico de eventos! {str(e)}')
         traceback.print_exc()
         if cliente:
             cliente.close()
@@ -68,14 +125,29 @@ def suscribirse_a_comandos():
         while True:
             mensaje = consumidor.receive()
             print(f'Comando recibido: {mensaje.value().data}')
-            mapeador = MapeadorComandoAgregarImagenMedica()
-            comando = mapeador.comando_integracion_a_comando(mensaje.value())
-            ejecutar_comando(comando)
-            consumidor.acknowledge(mensaje)
+            
+            try:
+                # Mapear el comando de integración a un comando de dominio
+                mapeador = MapeadorComandoAgregarImagenMedica()
+                comando = mapeador.comando_integracion_a_comando(mensaje.value())
+                
+                # Ejecutar el comando
+                ejecutar_comando(comando)
+                
+                print(f'Comando ejecutado exitosamente: {comando}')
+                
+                # Reconocer el mensaje
+                consumidor.acknowledge(mensaje)
+            except Exception as e:
+                print(f'Error al procesar el comando: {str(e)}')
+                traceback.print_exc()
+                # En caso de error, podríamos implementar un mecanismo de reintento
+                # o simplemente reconocer el mensaje para no procesarlo nuevamente
+                consumidor.acknowledge(mensaje)
 
         cliente.close()
-    except:
-        logging.error('ERROR: Suscribiendose al tópico de comandos!')
+    except Exception as e:
+        logging.error(f'ERROR: Suscribiendose al tópico de comandos! {str(e)}')
         traceback.print_exc()
         if cliente:
             cliente.close()

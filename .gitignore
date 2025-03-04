@@ -168,3 +168,15 @@ cython_debug/
 .AppleDouble
 .LSOverride
 .scannerwork
+/monitor_logs.sh
+/README_CANONIZACION.md
+/rebuild_canonizacion.sh
+/start_canonizacion_only.sh
+/test_canonizacion.sh
+/test_imagen_medica_corregida.json
+/test_imagen_medica_corregido2.json
+/test_imagen_medica_existente.json
+/test_imagen_medica_final.json
+/test_imagen_medica_final2.json
+/test_imagen_medica_final3.json
+/test_imagen_medica_nueva.json

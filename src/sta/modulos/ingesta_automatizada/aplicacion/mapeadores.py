@@ -106,9 +106,15 @@ class MapeadorImagenMedicaDTOEntity(RepMap):
     def _procesar_demografia_dto(self, demografia_dto: DemografiaDTO) -> Demografia:
         demografia = Demografia()
         demografia.edad = demografia_dto.edad
-        demografia.grupo_edad = GrupoEdad(demografia_dto.grupo_edad)
-        demografia.sexo = Sexo(demografia_dto.sexo)
-        demografia.etnicidad = Etnia(demografia_dto.etnicidad)
+        # Convertir el valor del grupo de edad a formato título antes de convertirlo a enum
+        grupo_edad_valor = demografia_dto.grupo_edad.title() if demografia_dto.grupo_edad else None
+        demografia.grupo_edad = GrupoEdad(grupo_edad_valor) if grupo_edad_valor else None
+        # Convertir el valor del sexo a formato título antes de convertirlo a enum
+        sexo_valor = demografia_dto.sexo.title() if demografia_dto.sexo else None
+        demografia.sexo = Sexo(sexo_valor) if sexo_valor else None
+        # Convertir el valor de la etnicidad a formato título antes de convertirlo a enum
+        etnicidad_valor = demografia_dto.etnicidad.title() if demografia_dto.etnicidad else None
+        demografia.etnicidad = Etnia(etnicidad_valor) if etnicidad_valor else None
         return demografia
 
     def _procesar_diagnostico_dto(self, diagnostico_dto: DiagnosticoDTO) -> Diagnostico:

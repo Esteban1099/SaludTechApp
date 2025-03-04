@@ -62,8 +62,16 @@ class MapeadorComandoAgregarImagenMedica(InfMap):
     def _procesar_demografia_record(self, demografia_record: DemografiaRecord):
         # Convertir los valores a la forma correcta para los enums
         grupo_edad = demografia_record.grupo_edad
+        if '.' in grupo_edad:
+            grupo_edad = grupo_edad.split('.')[-1]
+            
         sexo = demografia_record.sexo
+        if '.' in sexo:
+            sexo = sexo.split('.')[-1]
+            
         etnicidad = demografia_record.etnicidad
+        if '.' in etnicidad:
+            etnicidad = etnicidad.split('.')[-1]
         
         return DemografiaDTO(
             id=demografia_record.id,
@@ -97,18 +105,28 @@ class MapeadorComandoAgregarImagenMedica(InfMap):
     def _procesar_regiones_anatomicas_record(self, regiones_anatomicas_record: list[RegionAnatomicaRecord]):
         regiones_anatomicas_dtos = []
         for region_anatomica_record in regiones_anatomicas_record:
+            # Extraer el valor real de la enumeración si viene con prefijo
+            categoria = region_anatomica_record.categoria
+            if '.' in categoria:
+                categoria = categoria.split('.')[-1]
+                
             regiones_anatomicas_dtos.append(
                 RegionAnatomicaDTO(
-                    categoria=region_anatomica_record.categoria,
+                    categoria=categoria,
                     especificacion=region_anatomica_record.especificacion
                 )
             )
         return regiones_anatomicas_dtos
 
     def comando_integracion_a_comando(self, comando_integracion: ComandoAgregarImagenMedica) -> AgregarImagenMedica:
+        # Extraer el valor real de la modalidad si viene con prefijo
+        modalidad = comando_integracion.data.modalidad
+        if '.' in modalidad:
+            modalidad = modalidad.split('.')[-1]
+            
         return AgregarImagenMedica(
             id=comando_integracion.data.id,
-            modalidad=comando_integracion.data.modalidad,
+            modalidad=modalidad,
             fecha_creacion=comando_integracion.data.fecha_creacion,
             regiones_anatomicas=self._procesar_regiones_anatomicas_record(comando_integracion.data.regiones_anatomicas),
             diagnostico=self._procesar_diagnostico_record(comando_integracion.data.diagnostico)
