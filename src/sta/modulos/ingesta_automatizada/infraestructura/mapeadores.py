@@ -3,7 +3,6 @@ from src.sta.modulos.ingesta_automatizada.dominio.entidades import Demografia, D
 from src.sta.modulos.ingesta_automatizada.infraestructura.dto import DemografiaDTO, DiagnosticoDTO, RegionAnatomicaDTO, \
     AtributoDTO, ImagenMedicaDTO
 from src.sta.seedwork.dominio.mapeadores import Mapeador
-from src.sta.modulos.ingesta_automatizada.dominio.objetos_valor import GrupoEdad, Sexo, Etnia
 
 
 class MapeadorImagenMedicaDTOEntity(Mapeador):
@@ -49,9 +48,9 @@ class MapeadorImagenMedicaDTOEntity(Mapeador):
     def _procesar_demografia_dto(self, demografia_dto: DemografiaDTO) -> Demografia:
         demografia = Demografia()
         demografia.edad = demografia_dto.edad
-        demografia.grupo_edad = GrupoEdad(demografia_dto.grupo_edad)
-        demografia.sexo = Sexo(demografia_dto.sexo)
-        demografia.etnicidad = Etnia(demografia_dto.etnicidad)
+        demografia.grupo_edad = demografia_dto.grupo_edad
+        demografia.sexo = demografia_dto.sexo
+        demografia.etnicidad = demografia_dto.etnicidad
         return demografia
 
     def _procesar_diagnostico_dto(self, diagnostico_dto: DiagnosticoDTO) -> Diagnostico:
