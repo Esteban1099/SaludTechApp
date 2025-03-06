@@ -3,7 +3,7 @@ import datetime
 import pulsar
 from pulsar.schema import *
 
-from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.comandos import ComandoAgregarImagenMedica
+from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.comandos import ComandoCanonizarImagenMedica
 from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.eventos import ImagenMedicaAgregadaPayload, \
     EventoImagenMedicaAgregada, ImagenMedicaCanonizadaPayload, EventoImagenMedicaCanonizada
 from src.canonizacion.seedwork.infraestructura import utils
@@ -49,8 +49,8 @@ class Despachador:
     def publicar_comando(self, comando, topico):
         mapeador = self._obtener_mapeador()
         self._publicar_mensaje(mapeador.comando_a_comando_integracion(comando), topico,
-                               AvroSchema(ComandoAgregarImagenMedica))
+                               AvroSchema(ComandoCanonizarImagenMedica))
 
     def _obtener_mapeador(self):
-        from src.canonizacion.modulos.canonizacion.dominio.mapeadores import MapeadorComandoAgregarImagenMedica
-        return MapeadorComandoAgregarImagenMedica()
+        from src.canonizacion.modulos.canonizacion.dominio.mapeadores import MapeadorComandoCanonizarImagenMedica
+        return MapeadorComandoCanonizarImagenMedica()
