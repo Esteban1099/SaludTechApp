@@ -43,6 +43,7 @@ class ImagenMedica(AgregacionRaiz):
     estado = objetos_valor.EstadoImagenMedica.EN_INGESTA
 
     def agregar_imagen_medica(self, imagen_medica: ImagenMedica):
+        self.id = imagen_medica.id
         self.diagnostico = imagen_medica.diagnostico
         self.modalidad = imagen_medica.modalidad
         self.fecha_creacion = imagen_medica.fecha_creacion

@@ -23,6 +23,7 @@ class CanonizarImagenMedica(Comando):
 class CanonizarImagenMedicaHandler(CanonizarImagenMedicaBaseHandler):
     def handle(self, comando: CanonizarImagenMedica):
         imagen_medica_dto = ImagenMedicaDTO(
+            id=comando.id,
             modalidad=comando.modalidad,
             fecha_creacion=comando.fecha_creacion,
             regiones_anatomicas=comando.regiones_anatomicas,

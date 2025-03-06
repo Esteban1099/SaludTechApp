@@ -23,6 +23,7 @@ class ProcesarImagenMedica(Comando):
 class ProcesarImagenMedicaHandler(ProcesarImagenMedicaBaseHandler):
     def handle(self, comando: ProcesarImagenMedica):
         imagen_medica_dto = ImagenMedicaDTO(
+            id=comando.id,
             url=comando.url,
             modalidad=comando.modalidad,
             fecha_creacion=comando.fecha_creacion,
