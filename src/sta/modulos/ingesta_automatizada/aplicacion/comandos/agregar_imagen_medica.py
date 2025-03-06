@@ -22,7 +22,6 @@ class AgregarImagenMedica(Comando):
 class AgregarImagenMedicaHandler(AgregarImagenMedicaBaseHandler):
     def handle(self, comando: AgregarImagenMedica):
         imagen_medica_dto = ImagenMedicaDTO(
-            id=comando.id,
             modalidad=comando.modalidad,
             fecha_creacion=comando.fecha_creacion,
             regiones_anatomicas=comando.regiones_anatomicas,

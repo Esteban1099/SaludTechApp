@@ -13,8 +13,6 @@ class _FabricaProcesamientoImagen(Fabrica):
             return mapeador.entidad_a_dto(objeto)
         else:
             imagen_medica: ImagenMedica = mapeador.dto_a_entidad(objeto)
-            if hasattr(objeto, 'id') and objeto.id:
-                imagen_medica._id = objeto.id
             return imagen_medica
 
 
