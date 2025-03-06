@@ -172,6 +172,7 @@ cython_debug/
 /README_CANONIZACION.md
 /rebuild_canonizacion.sh
 /start_canonizacion_only.sh
+/test.sh
 /test_canonizacion.sh
 /test_imagen_medica_corregida.json
 /test_imagen_medica_corregido2.json
@@ -180,4 +181,3 @@ cython_debug/
 /test_imagen_medica_final2.json
 /test_imagen_medica_final3.json
 /test_imagen_medica_nueva.json
-test.sh
