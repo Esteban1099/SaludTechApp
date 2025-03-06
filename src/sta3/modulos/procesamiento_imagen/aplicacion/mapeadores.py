@@ -155,7 +155,6 @@ class MapeadorImagenMedicaDTOEntity(RepMap):
 
     def dto_a_entidad(self, dto: ImagenMedicaDTO) -> ImagenMedica:
         imagen_medica = ImagenMedica()
-        imagen_medica.id = dto.id
         imagen_medica.url = dto.url
         imagen_medica.diagnostico = self._procesar_diagnostico_dto(dto.diagnostico)
         imagen_medica.modalidad = Modalidad(dto.modalidad)
