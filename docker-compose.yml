@@ -8,22 +8,14 @@ services:
     environment:
       DB_URI: postgresql://postgres:postgres@database-ingesta_automatizada:5432/backend-ingesta_automatizada-db
       BROKER_HOST: pulsar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     depends_on:
       database-ingesta_automatizada:
-        condition: service_healthy
-      pulsar:
-        condition: service_healthy
-
-  canonizacion:
-    image: canonizacion
-    container_name: canonizacion
-    ports:
-      - "5002:5002"
-    environment:
-      DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-canonizacion-db
-      BROKER_HOST: pulsar
-    depends_on:
-      database-canonizacion:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -36,10 +28,40 @@ services:
     environment:
       DB_URI: postgresql://postgres:postgres@database3:5432/backend-sta3-db
       BROKER_HOST: pulsar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
     depends_on:
       database3:
         condition: service_healthy
       pulsar:
+        condition: service_healthy
+      ingesta_automatizada:
+        condition: service_healthy
+
+  canonizacion:
+    image: canonizacion
+    container_name: canonizacion
+    ports:
+      - "5002:5002"
+    environment:
+      DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-canonizacion-db
+      BROKER_HOST: pulsar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      database-canonizacion:
+        condition: service_healthy
+      pulsar:
+        condition: service_healthy
+      sta3:
         condition: service_healthy
 
   bff:
@@ -53,6 +75,12 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
+      ingesta_automatizada:
+        condition: service_healthy
+      sta3:
+        condition: service_healthy
+      canonizacion:
+        condition: service_healthy
 
   notificaciones:
     image: notificaciones
@@ -61,6 +89,12 @@ services:
       BROKER_HOST: pulsar
     depends_on:
       pulsar:
+        condition: service_healthy
+      ingesta_automatizada:
+        condition: service_healthy
+      sta3:
+        condition: service_healthy
+      canonizacion:
         condition: service_healthy
 
   pulsar:
