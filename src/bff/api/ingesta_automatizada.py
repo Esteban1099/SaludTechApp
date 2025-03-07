@@ -9,7 +9,7 @@ from src.bff.despachadores import Despachador
 
 blueprint = Blueprint('ingesta_automatizada', __name__, url_prefix="/bff/ingesta_automatizada")
 
-STA_HOST = os.getenv("STA_HOST", default="localhost")
+INGESTA_AUTOMATIZADA_HOST = os.getenv("INGESTA_AUTOMATIZADA_HOST", default="localhost")
 
 
 @blueprint.route('/imagen_medica', methods=['POST'])
@@ -31,4 +31,4 @@ def agregar_imagen_medica():
 
 @blueprint.route('/imagen_medica/<id>', methods=['GET'])
 def dar_imagen_medica(id=None):
-    return requests.get(f'http://{STA_HOST}:5000/ingesta_automatizada/imagen_medica-query/{id}').json()
+    return requests.get(f'http://{INGESTA_AUTOMATIZADA_HOST}:5000/ingesta_automatizada/imagen_medica-query/{id}').json()

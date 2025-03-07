@@ -8,24 +8,25 @@ import _pulsar
 import pulsar
 from pulsar.schema import *
 
-from src.canonizacion.modulos.canonizacion.infraestructura.schema.v1.eventos import EventoImagenMedicaCanonizada
+from src.ingesta_automatizada.modulos.ingesta_automatizada.infraestructura.schema.v1.eventos import \
+    EventoImagenMedicaAgregada
 from src.sta3.modulos.procesamiento_imagen.aplicacion.comandos.procesar_imagen_medica import ProcesarImagenMedica
+from src.sta3.modulos.procesamiento_imagen.aplicacion.dto import DemografiaDTO, AtributoDTO, DiagnosticoDTO, \
+    RegionAnatomicaDTO
 from src.sta3.modulos.procesamiento_imagen.dominio.mapeadores import MapeadorComandoProcesarImagenMedica
 from src.sta3.modulos.procesamiento_imagen.infraestructura.despachadores import Despachador
 from src.sta3.modulos.procesamiento_imagen.infraestructura.schema.v1.comandos import ComandoProcesarImagenMedica
-from src.sta3.modulos.procesamiento_imagen.infraestructura.schema.v1.eventos import EventoImagenMedicaProcesada
 from src.sta3.seedwork.aplicacion.comandos import ejecutar_comando
 from src.sta3.seedwork.infraestructura import utils
-from src.sta3.modulos.procesamiento_imagen.aplicacion.dto import DemografiaDTO, AtributoDTO, DiagnosticoDTO, RegionAnatomicaDTO
-from src.sta3.modulos.procesamiento_imagen.aplicacion.comandos.procesar_imagen_medica import ProcesarImagenMedica
-
 
 
 def suscribirse_a_eventos():
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('eventos-imagen-canonizada', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='sta-sub-eventos-imagen-canonizada', schema=AvroSchema(EventoImagenMedicaCanonizada))
+        consumidor = cliente.subscribe('eventos-imagen-medica', consumer_type=_pulsar.ConsumerType.Shared,
+                                       subscription_name='sta3-sub-eventos-imagen-medica',
+                                       schema=AvroSchema(EventoImagenMedicaAgregada))
 
         while True:
             mensaje = consumidor.receive()
@@ -89,13 +90,13 @@ def suscribirse_a_eventos():
             evento_data = mensaje.value().data
 
             comando = ProcesarImagenMedica(
-                    id=evento_data.id,  # Replace with actual id if available
-                    url=f"http://example.com/{uuid.uuid4()}",  # Replace with actual url if available
-                    modalidad=json_data["modalidad"],
-                    fecha_creacion=fecha_creacion,
-                    regiones_anatomicas=regiones_anatomicas_dto,
-                    diagnostico=diagnostico_dto
-                )
+                id=evento_data.id,  # Replace with actual id if available
+                url=f"http://example.com/{uuid.uuid4()}",  # Replace with actual url if available
+                modalidad=json_data["modalidad"],
+                fecha_creacion=fecha_creacion,
+                regiones_anatomicas=regiones_anatomicas_dto,
+                diagnostico=diagnostico_dto
+            )
 
             despachador = Despachador()
             despachador.publicar_comando(comando=comando, topico="comandos-imagen-medica-procesar")
@@ -115,7 +116,7 @@ def suscribirse_a_comandos():
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
         consumidor = cliente.subscribe('comandos-imagen-medica-procesar', consumer_type=_pulsar.ConsumerType.Shared,
-                                       subscription_name='sta-sub-comandos-imagen-medica-procesar',
+                                       subscription_name='sta3-sub-comandos-imagen-medica-procesar',
                                        schema=AvroSchema(ComandoProcesarImagenMedica))
 
         while True:

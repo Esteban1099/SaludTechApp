@@ -16,3 +16,7 @@ class Repositorio(ABC):
     @abstractmethod
     def agregar(self, entidad: Entidad):
         ...
+
+    @abstractmethod
+    def eliminar(self, entidad: Entidad):
+        ...
