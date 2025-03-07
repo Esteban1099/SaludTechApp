@@ -90,13 +90,13 @@ def suscribirse_a_eventos():
             evento_data = mensaje.value().data
 
             comando = ProcesarImagenMedica(
-                    id=evento_data.id,  # Replace with actual id if available
-                    url=f"http://example.com/{uuid.uuid4()}",  # Replace with actual url if available
-                    modalidad=json_data["modalidad"],
-                    fecha_creacion=fecha_creacion,
-                    regiones_anatomicas=regiones_anatomicas_dto,
-                    diagnostico=diagnostico_dto
-                )
+                id=evento_data.id,  # Replace with actual id if available
+                url=f"http://example.com/{uuid.uuid4()}",  # Replace with actual url if available
+                modalidad=json_data["modalidad"],
+                fecha_creacion=fecha_creacion,
+                regiones_anatomicas=regiones_anatomicas_dto,
+                diagnostico=diagnostico_dto
+            )
 
             despachador = Despachador()
             despachador.publicar_comando(comando=comando, topico="comandos-imagen-medica-procesar")

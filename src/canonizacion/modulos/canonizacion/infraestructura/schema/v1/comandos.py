@@ -31,7 +31,7 @@ class RegionAnatomicaRecord(Record):
     especificacion = String()
 
 
-class ComandoAgregarImagenMedicaPayload(ComandoIntegracion):
+class ComandoCanonizarImagenMedicaPayload(ComandoIntegracion):
     id = String()
     modalidad = String()
     fecha_creacion = String()
@@ -39,5 +39,5 @@ class ComandoAgregarImagenMedicaPayload(ComandoIntegracion):
     diagnostico = DiagnosticoRecord()
 
 
-class ComandoAgregarImagenMedica(ComandoIntegracion):
-    data = ComandoAgregarImagenMedicaPayload()
+class ComandoCanonizarImagenMedica(ComandoIntegracion):
+    data = ComandoCanonizarImagenMedicaPayload()

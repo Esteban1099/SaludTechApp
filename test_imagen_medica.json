@@ -1,31 +1,35 @@
 {
-  "id": "img-001",
-  "modalidad": "Rayos X",
-  "fecha_creacion": "2025-02-27T04:00:00Z",
-  "regiones_anatomicas": [
-    {
-      "id": "reg-001",
-      "categoria": "Tórax",
-      "especificacion": "Pulmones"
-    }
-  ],
+  "id": "b574eb0c-be5d-4a47-8cb0-7b390b29395a",
   "diagnostico": {
-    "id": "diag-001",
-    "nombre": "Neumonía",
-    "descripcion": "Infección pulmonar",
+    "nombre": "Tos seca persistente",
+    "descripcion": "Diagnóstico de prueba para canonización",
     "demografia": {
-      "id": "demo-001",
-      "edad": 45,
-      "grupo_edad": "Adulto",
-      "sexo": "Masculino",
-      "etnicidad": "Latino"
+      "edad": 1,
+      "grupo_edad": "NEONATAL",
+      "sexo": "MASCULINO",
+      "etnicidad": "LATINO"
     },
     "atributos": [
       {
-        "id": "attr-001",
-        "nombre": "Severidad",
-        "descripcion": "Moderada"
+        "nombre": "Tos",
+        "descripcion": "Seca, sin producción de flema"
+      },
+      {
+        "nombre": "Frecuencia",
+        "descripcion": "Persistente durante el día y la noche"
+      },
+      {
+        "nombre": "Duración",
+        "descripcion": "Más de 3 semanas (crónica)"
       }
     ]
-  }
-} 
+  },
+  "modalidad": "RAYOS_X",
+  "fecha_creacion": "2022-11-22T13:10:00Z",
+  "regiones_anatomicas": [
+    {
+      "categoria": "CABEZA_CUELLO",
+      "especificacion": "Test de canonización"
+    }
+  ]
+}

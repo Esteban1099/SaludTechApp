@@ -23,6 +23,7 @@ class CanonizarImagenMedica(Comando):
 class CanonizarImagenMedicaHandler(CanonizarImagenMedicaBaseHandler):
     def handle(self, comando: CanonizarImagenMedica):
         imagen_medica_dto = ImagenMedicaDTO(
+            id=comando.id,
             modalidad=comando.modalidad,
             fecha_creacion=comando.fecha_creacion,
             regiones_anatomicas=comando.regiones_anatomicas,
@@ -48,4 +49,4 @@ class CanonizarImagenMedicaHandler(CanonizarImagenMedicaBaseHandler):
 @ejecutar_comando.register(CanonizarImagenMedica)
 def ejecutar_comando_canonizar_imagen_medica(comando: CanonizarImagenMedica):
     handler = CanonizarImagenMedicaHandler()
-    handler.handle(comando)
+    handler.handle(comando) 

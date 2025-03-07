@@ -1,31 +1,31 @@
 {
-  "id": "img-001",
-  "modalidad": "Ultra sonido",
-  "fecha_creacion": "2025-02-27T04:00:00Z",
+  "id": "b1440e41-3070-4424-b581-f3ee0f8e6655",
+  "modalidad": "Rayos X",
+  "fecha_creacion": "2023-05-15 10:30:00",
   "regiones_anatomicas": [
     {
-      "id": "reg-001",
-      "categoria": "Tórax",
-      "especificacion": "Pulmones"
+      "id": "d32c12c9-3885-4362-8fc8-808b52a4085d",
+      "categoria": "Cabeza_Cuello",
+      "especificacion": "Test"
     }
   ],
   "diagnostico": {
-    "id": "diag-001",
-    "nombre": "Neumonía",
-    "descripcion": "Infección pulmonar",
-    "demografia": {
-      "id": "demo-001",
-      "edad": 45,
-      "grupo_edad": "Adulto",
-      "sexo": "Masculino",
-      "etnicidad": "Latino"
-    },
+    "id": "d0db82d5-50d5-47ed-a82b-96b87b4012b1",
+    "nombre": "Tos",
+    "descripcion": "Tos seca persistente",
     "atributos": [
       {
-        "id": "attr-001",
-        "nombre": "Severidad",
-        "descripcion": "Moderada"
+        "id": "3bf5bf63-2f12-4a24-bbb9-3a4428de2b3d",
+        "nombre": "Tos",
+        "descripcion": "Seca, sin producción de flema"
       }
-    ]
+    ],
+    "demografia": {
+      "id": "0a03d23a-c488-46cc-ba7c-6ba719d3f5de",
+      "edad": 1,
+      "sexo": "Masculino",
+      "etnicidad": "Latino",
+      "grupo_edad": "Neonatal"
+    }
   }
 } 

@@ -3,7 +3,7 @@ from src.canonizacion.modulos.canonizacion.infraestructura.fabricas import Fabri
 from src.canonizacion.seedwork.aplicacion.comandos import ComandoHandler
 
 
-class AgregarImagenMedicaBaseHandler(ComandoHandler):
+class CanonizarImagenMedicaBaseHandler(ComandoHandler):
     def __init__(self):
         self._fabrica_repositorio: FabricaRepositorio = FabricaRepositorio()
         self._fabrica_ingestion_automatizada: FabricaCanonizacion = FabricaCanonizacion()
