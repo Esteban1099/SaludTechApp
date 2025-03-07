@@ -1,17 +1,19 @@
 services:
-  sta:
-    image: sta
-    container_name: saludtech
+
+  ingesta_automatizada:
+    image: ingesta_automatizada
+    container_name: ingesta_automatizada
     ports:
       - "5000:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database:5432/backend-sta-db
+      DB_URI: postgresql://postgres:postgres@database-ingesta_automatizada:5432/backend-ingesta_automatizada-db
       BROKER_HOST: pulsar
     depends_on:
-      database:
+      database-ingesta_automatizada:
         condition: service_healthy
       pulsar:
         condition: service_healthy
+
   canonizacion:
     image: canonizacion
     container_name: canonizacion
@@ -42,16 +44,15 @@ services:
 
   bff:
     image: bff
-    container_name: backend-for-frontend
+    container_name: bff
     ports:
       - "5001:5000"
     environment:
       BROKER_HOST: pulsar
-      STA_HOST: sta
+      INGESTA_AUTOMATIZADA_HOST: ingesta_automatizada
     depends_on:
       pulsar:
         condition: service_healthy
-
 
   notificaciones:
     image: notificaciones
@@ -76,13 +77,13 @@ services:
       timeout: 10s
       retries: 5
 
-  database:
+  database-ingesta_automatizada:
     image: postgres
-    container_name: postgres
+    container_name: database-ingesta_automatizada
     ports:
       - "5480:5432"
     environment:
-      POSTGRES_DB: backend-sta-db
+      POSTGRES_DB: backend-ingesta_automatizada-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:

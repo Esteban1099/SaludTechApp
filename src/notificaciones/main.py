@@ -37,7 +37,7 @@ BROKER_HOST = os.getenv('BROKER_HOST', default="localhost")
 
 client = pulsar.Client(f'pulsar://{BROKER_HOST}:6650')
 consumer = client.subscribe('eventos-imagen-medica', consumer_type=_pulsar.ConsumerType.Shared,
-                            subscription_name='sub-notificacion-eventos-imagen-medica',
+                            subscription_name='notificaciones-sub-eventos-imagen-medica',
                             schema=AvroSchema(EventoImagenMedicaAgregada))
 
 while True:
