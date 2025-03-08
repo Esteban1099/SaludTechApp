@@ -9,7 +9,7 @@ NO se espera tener el servicio completamente desarrollado, solo los comandos, co
 # Instruccion de ejecucion del proyecto
 
 1. Clonar el repositorio
-2. Crear imagenes Docker para ingesta automatizada, sta3, notificaciones, canonizacion y bff
+2. Crear imagenes Docker para ingesta automatizada, sta3, notificaciones, canonizacion, bff y monitor
 ```bash
 docker build -f ingesta_automatizada.Dockerfile -t ingesta_automatizada .
 ```
@@ -24,6 +24,9 @@ docker build -f notificaciones.Dockerfile -t notificaciones .
 ```
 ```bash
 docker build -f bff.Dockerfile -t bff .
+```
+```bash
+docker build -f monitor.Dockerfile -t monitor .
 ```
 3. Ejecutar el siguiente comando para desplegar toda la arquitectura
 ```bash

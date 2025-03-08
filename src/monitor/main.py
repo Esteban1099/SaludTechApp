@@ -1,30 +1,35 @@
+import os
+import sys
 import time
-from datetime import datetime
-
 import requests
+
+INGESTA_AUTOMATIZADA_HOST = os.getenv('INGESTA_AUTOMATIZADA_HOST', "localhost")
+CANONIZACION_HOST = os.getenv('CANONIZACION_HOST', "localhost")
+STA3_HOST = os.getenv('STA3_HOST', "localhost")
+
+
+def check_service(name, url):
+    try:
+        requests.get(url, timeout=5)
+        print(f"Servicio {name} up!", file=sys.stdout)
+    except requests.exceptions.RequestException:
+        print(f"Servicio {name} down!", file=sys.stdout)
 
 
 def monitor():
-    healthcheck_canonizacion = "http://pqrs-1:5000/healthcheck"
-    url_pqrs_2 = "http://pqrs-2:5000/healthcheck"
-    url_clientes = "http://clientes:5000/healthcheck"
-    while (True):
-        response1 = requests.get(healthcheck_canonizacion)
-        if response1.status_code != 200:
-            mensaje = {"instance": "pqrs-1", "status": "Servicio no disponible",
-                       "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S")}
+    healthcheck_urls = {
+        "ingesta automatizada": f'http://{INGESTA_AUTOMATIZADA_HOST}:5000/health',
+        "canonización": f'http://{CANONIZACION_HOST}:5002/health',
+        "sta3": f'http://{STA3_HOST}:5000/health'
+    }
 
-        response2 = requests.get(url_pqrs_2)
-        if response2.status_code != 200:
-            mensaje = {"instance": "pqrs-2", "status": "Servicio no disponible",
-                       "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S")}
-
-        response3 = requests.get(url_clientes)
-        if response3.status_code != 200:
-            mensaje = {"instance": "clientes", "status": "Servicio no disponible",
-                       "timestamp": datetime.now().strftime("%m/%d/%Y %H:%M:%S")}
-
-        time.sleep(3)
+    try:
+        while True:
+            for name, url in healthcheck_urls.items():
+                check_service(name, url)
+            time.sleep(3)
+    except KeyboardInterrupt:
+        print("Monitoreo detenido.")
 
 
 if __name__ == '__main__':
