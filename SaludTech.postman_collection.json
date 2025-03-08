@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"diagnostico\": {\r\n        \"nombre\": \"Tos\",\r\n        \"descripcion\": \"De perra\",\r\n        \"demografia\": {\r\n            \"edad\": 10,\r\n            \"grupo_edad\": \"Neonatal\",\r\n            \"sexo\": \"Masculino\",\r\n            \"etnicidad\": \"Latino\"\r\n        },\r\n        \"atributos\": [\r\n            {\r\n                \"nombre\": \"Tos\",\r\n                \"descripcion\": \"De perra\"\r\n            }\r\n        ]\r\n    },\r\n    \"modalidad\": \"Rayos X\",\r\n    \"fecha_creacion\": \"2022-11-22T13:10:00Z\",\r\n    \"regiones_anatomicas\": [\r\n        {\r\n            \"categoria\": \"Cabeza y cuello\",\r\n            \"especificacion\": \"Test\"\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"diagnostico\": {\r\n        \"nombre\": \"Tos\",\r\n        \"descripcion\": \"De perra\",\r\n        \"demografia\": {\r\n            \"edad\": 10,\r\n            \"grupo_edad\": \"Neonatal\",\r\n            \"sexo\": \"Masculino\",\r\n            \"etnicidad\": \"Latino\"\r\n        },\r\n        \"atributos\": [\r\n            {\r\n                \"nombre\": \"Tos\",\r\n                \"descripcion\": \"De perra\"\r\n            }\r\n        ]\r\n    },\r\n    \"modalidad\": \"Rayos X\",\r\n    \"fecha_creacion\": \"2022-11-22T13:10:00Z\",\r\n    \"regiones_anatomicas\": [\r\n        {\r\n            \"categoria\": \"Cabeza y cuello\",\r\n            \"especificacion\": \"Test\"\r\n        }\r\n    ],\r\n    \"url\": \"Test\",\r\n    \"flag\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -55,7 +55,34 @@
 					"variable": [
 						{
 							"key": "imagen_medica_id",
-							"value": "c20d9928-3dd7-46d7-965c-a6393e574cfa"
+							"value": "2d8e1e7e-446f-4f2e-80cb-6523ffadb6c0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Imagen Medica - Comando",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/ingesta_automatizada/imagen_medica-comando/:imagen_medica_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"ingesta_automatizada",
+						"imagen_medica-comando",
+						":imagen_medica_id"
+					],
+					"variable": [
+						{
+							"key": "imagen_medica_id",
+							"value": "2d8e1e7e-446f-4f2e-80cb-6523ffadb6c0"
 						}
 					]
 				}
