@@ -20,13 +20,13 @@ services:
       pulsar:
         condition: service_healthy
 
-  sta3:
-    image: sta3
-    container_name: saludtech3
+  procesamiento_imagen:
+    image: procesamiento_imagen
+    container_name: procesamiento_imagen
     ports:
       - "5003:5000"
     environment:
-      DB_URI: postgresql://postgres:postgres@database3:5432/backend-sta3-db
+      DB_URI: postgresql://postgres:postgres@database-procesamiento_imagen:5432/backend-procesamiento_imagen-db
       BROKER_HOST: pulsar
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
@@ -35,7 +35,7 @@ services:
       retries: 3
       start_period: 5s
     depends_on:
-      database3:
+      database-procesamiento_imagen:
         condition: service_healthy
       pulsar:
         condition: service_healthy
@@ -61,7 +61,7 @@ services:
         condition: service_healthy
       pulsar:
         condition: service_healthy
-      sta3:
+      procesamiento_imagen:
         condition: service_healthy
 
   bff:
@@ -77,7 +77,7 @@ services:
         condition: service_healthy
       ingesta_automatizada:
         condition: service_healthy
-      sta3:
+      procesamiento_imagen:
         condition: service_healthy
       canonizacion:
         condition: service_healthy
@@ -89,11 +89,11 @@ services:
       BROKER_HOST: pulsar
       INGESTA_AUTOMATIZADA_HOST: ingesta_automatizada
       CANONIZACION_HOST: canonizacion
-      STA3_HOST: sta3
+      STA3_HOST: procesamiento_imagen
     depends_on:
       ingesta_automatizada:
         condition: service_healthy
-      sta3:
+      procesamiento_imagen:
         condition: service_healthy
       canonizacion:
         condition: service_healthy
@@ -108,7 +108,7 @@ services:
         condition: service_healthy
       ingesta_automatizada:
         condition: service_healthy
-      sta3:
+      procesamiento_imagen:
         condition: service_healthy
       canonizacion:
         condition: service_healthy
@@ -142,13 +142,13 @@ services:
       timeout: 5s
       retries: 5
 
-  database3:
+  database-procesamiento_imagen:
     image: postgres
-    container_name: postgres3
+    container_name: database-procesamiento_imagen
     ports:
       - "5481:5432"
     environment:
-      POSTGRES_DB: backend-sta3-db
+      POSTGRES_DB: backend-procesamiento_imagen-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     healthcheck:

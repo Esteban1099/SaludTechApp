@@ -14,7 +14,7 @@ NO se espera tener el servicio completamente desarrollado, solo los comandos, co
 docker build -f ingesta_automatizada.Dockerfile -t ingesta_automatizada .
 ```
 ```bash
-docker build -f sta3.Dockerfile -t sta3 .
+docker build -f procesamiento_imagen.Dockerfile -t procesamiento_imagen .
 ```
 ```bash
 docker build -f notificaciones.Dockerfile -t notificaciones .
