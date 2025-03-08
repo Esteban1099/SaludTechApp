@@ -29,7 +29,7 @@ def suscribirse_a_eventos():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido: {mensaje.value().data}', sys.stdout)
+            print(f'Evento recibido: {mensaje.value().data}', file=sys.stdout)
             consumidor.acknowledge(mensaje)
 
         cliente.close()
@@ -50,7 +50,7 @@ def suscribirse_a_eventos_compensacion():
 
         while True:
             mensaje = consumidor.receive()
-            print(f'Evento recibido: {mensaje.value().data}', sys.stdout)
+            print(f'Evento recibido: {mensaje.value().data}', file=sys.stdout)
             consumidor.acknowledge(mensaje)
 
         cliente.close()
@@ -76,7 +76,7 @@ def suscribirse_a_comandos():
             comando = mapeador.comando_integracion_a_comando(mensaje.value())
             ejecutar_comando(comando)
             consumidor.acknowledge(mensaje)
-            print(f'Se ejecutó el comando exitosamente: {comando}', sys.stdout)
+            print(f'Se ejecutó el comando exitosamente: {comando}', file=sys.stdout)
 
         cliente.close()
     except:
@@ -101,9 +101,9 @@ def suscribirse_a_comandos_compensacion():
             comando = mapeador.comando_integracion_a_comando(mensaje.value())
             try:
                 ejecutar_comando(comando)
-                print(f'Se ejecutó el comando de compensación exitosamente: {comando}', sys.stdout)
+                print(f'Se ejecutó el comando de compensación exitosamente: {comando}', file=sys.stdout)
             except ExcepcionDominio as e:
-                print(e, sys.stdout)
+                print(e, file=sys.stdout)
             consumidor.acknowledge(mensaje)
 
         cliente.close()

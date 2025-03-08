@@ -51,7 +51,7 @@ services:
       DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-canonizacion-db
       BROKER_HOST: pulsar
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:5002/health" ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -75,6 +75,22 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
+      ingesta_automatizada:
+        condition: service_healthy
+      sta3:
+        condition: service_healthy
+      canonizacion:
+        condition: service_healthy
+
+  monitor:
+    image: monitor
+    container_name: monitor
+    environment:
+      BROKER_HOST: pulsar
+      INGESTA_AUTOMATIZADA_HOST: ingesta_automatizada
+      CANONIZACION_HOST: canonizacion
+      STA3_HOST: sta3
+    depends_on:
       ingesta_automatizada:
         condition: service_healthy
       sta3:

@@ -43,10 +43,10 @@ consumer = client.subscribe('eventos-imagen-medica', consumer_type=_pulsar.Consu
 while True:
     msg = consumer.receive()
     print('=========================================')
-    print("Mensaje Recibido: '%s'" % msg.value().data, sys.stdout)
+    print("Mensaje Recibido: '%s'" % msg.value().data, file=sys.stdout)
     print('=========================================')
 
-    print('==== Envía correo a usuario ====', sys.stdout)
+    print('==== Envía correo a usuario ====', file=sys.stdout)
 
     consumer.acknowledge(msg)
 
