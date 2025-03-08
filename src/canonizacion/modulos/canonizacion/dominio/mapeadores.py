@@ -1,3 +1,5 @@
+from linecache import clearcache
+
 from src.canonizacion.modulos.canonizacion.aplicacion.comandos.canonizar_imagen_medica import CanonizarImagenMedica
 from src.canonizacion.modulos.canonizacion.aplicacion.dto import DemografiaDTO, AtributoDTO, DiagnosticoDTO, RegionAnatomicaDTO, \
     ImagenMedicaDTO
@@ -108,30 +110,34 @@ class MapeadorComandoCanonizarImagenMedica(InfMap):
     def comando_a_comando_integracion(self, comando: CanonizarImagenMedica) -> ComandoCanonizarImagenMedica:
         return ComandoCanonizarImagenMedica(
             data=ComandoCanonizarImagenMedicaPayload(
-                id=comando.id,
-                modalidad=comando.modalidad,
-                fecha_creacion=comando.fecha_creacion,
-                regiones_anatomicas=[RegionAnatomicaRecord(
-                    id=str(region.id),
-                    categoria=region.categoria,
-                    especificacion=region.especificacion
-                ) for region in comando.regiones_anatomicas],
+                id=comando.data.id,
+                modalidad=comando.data.modalidad,
+                fecha_creacion=comando.data.fecha_creacion,
+                regiones_anatomicas=[
+                    RegionAnatomicaRecord(
+                        id=str(region.id),
+                        categoria=region.categoria,
+                        especificacion=region.especificacion
+                    ) for region in comando.data.regiones_anatomicas
+                ] if comando.data.regiones_anatomicas else [],
                 diagnostico=DiagnosticoRecord(
-                    id=str(comando.diagnostico.id),
-                    nombre=comando.diagnostico.nombre,
-                    descripcion=comando.diagnostico.descripcion,
+                    id=str(comando.data.diagnostico.id),
+                    nombre=comando.data.diagnostico.nombre,
+                    descripcion=comando.data.diagnostico.descripcion,
                     demografia=DemografiaRecord(
-                        id=str(comando.diagnostico.demografia.id),
-                        edad=comando.diagnostico.demografia.edad,
-                        grupo_edad=comando.diagnostico.demografia.grupo_edad,
-                        sexo=comando.diagnostico.demografia.sexo,
-                        etnicidad=comando.diagnostico.demografia.etnicidad
+                        id=str(comando.data.diagnostico.demografia.id),
+                        edad=comando.data.diagnostico.demografia.edad,
+                        grupo_edad=comando.data.diagnostico.demografia.grupo_edad,
+                        sexo=comando.data.diagnostico.demografia.sexo,
+                        etnicidad=comando.data.diagnostico.demografia.etnicidad
                     ),
-                    atributos=[AtributoRecord(
-                        id=str(atributo.id),
-                        nombre=atributo.nombre,
-                        descripcion=atributo.descripcion
-                    ) for atributo in comando.diagnostico.atributos]
+                    atributos=[
+                        AtributoRecord(
+                            id=str(atributo.id),
+                            nombre=atributo.nombre,
+                            descripcion=atributo.descripcion
+                        ) for atributo in comando.data.diagnostico.atributos
+                    ] if comando.data.diagnostico.atributos else []
                 )
             )
         )
@@ -174,7 +180,7 @@ class MapeadorComandoCanonizarImagenMedica(InfMap):
             sexo="MASCULINO",
             etnicidad="LATINO"
         )
-        
+
         diagnostico_dto = DiagnosticoDTO(
             id="1",
             nombre="Diagnóstico por defecto",
@@ -182,14 +188,21 @@ class MapeadorComandoCanonizarImagenMedica(InfMap):
             demografia=demografia_dto,
             atributos=[]
         )
-        
-        regiones_anatomicas_dto = [
-            RegionAnatomicaDTO(
+
+        # Inicializar correctamente regiones_anatomicas
+        regiones_anatomicas_dto = (
+            [RegionAnatomicaDTO(
                 id="1",
                 categoria="CABEZA_CUELLO",
                 especificacion="Especificación por defecto"
-            )
-        ]
+            )]
+            if evento.regiones_anatomicas is None else
+            [RegionAnatomicaDTO(
+                id=region.id,
+                categoria=region.categoria,
+                especificacion=region.especificacion
+            ) for region in evento.regiones_anatomicas]
+        )
 
         return CanonizarImagenMedica(
             id=evento.id,
@@ -198,3 +211,4 @@ class MapeadorComandoCanonizarImagenMedica(InfMap):
             regiones_anatomicas=regiones_anatomicas_dto,
             diagnostico=diagnostico_dto
         )
+

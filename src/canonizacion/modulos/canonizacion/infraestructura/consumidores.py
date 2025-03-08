@@ -18,41 +18,50 @@ from src.canonizacion.seedwork.infraestructura import utils
 
 def suscribirse_a_eventos():
     cliente = None
+    consumidor = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('eventos-imagen-medica', consumer_type=pulsar.ConsumerType.Shared,
-                                   subscription_name='canonizacion-sub-eventos',
-                                   schema=AvroSchema(EventoImagenMedicaAgregada))
+        consumidor = cliente.subscribe(
+            'eventos-imagen-medica',
+            consumer_type=pulsar.ConsumerType.Shared,
+            subscription_name='canonizacion-sub-eventos',
+            schema=AvroSchema(EventoImagenMedicaAgregada)
+        )
+
+        despachador = Despachador()
 
         while True:
-                mensaje = consumidor.receive()
-                datos = mensaje.value().data
-                print(f'Evento recibido: {datos}', file=sys.stdout)
-                consumidor.acknowledge(mensaje)
-                despachador = Despachador()
-                if hasattr(datos, 'flag') and datos.flag == 0:
-                    logging.info(f'Rechazando transacción por flag=0, iniciando compensación para imagen {datos.id}')
-                    comando = EliminarImagenMedica(id=datos.id)
-                    despachador.publicar_comando(comando, topico='comandos-imagen-medica-canonizar-compensacion')
-                else:
-                    logging.info(f'Aceptando transacción para imagen {datos.id}')
-                    comando = ComandoCanonizarImagenMedica(
-                        id=datos.id,  # Replace with actual id if available
-                        url=datos.url,  # Replace with actual url if available
-                        #modalidad=datos.modalidad,  # Replace with actual modalidad if available
-                        fecha_creacion=datos.fecha_creacion,
-                        #regiones_anatomicas=datos.regiones_anatomicas_dto,
-                        #diagnostico=datos.diagnostico_dto,
-                        flag = datos.flag)
-                    despachador.publicar_comando(comando, topico='comandos-imagen-medica-canonizar')
+            mensaje = consumidor.receive()
+            datos = mensaje.value().data
+            print(f'Evento recibido: {datos}', file=sys.stdout)
 
-                logging.info(f'Evento de compensación publicado para imagen {datos.id}')
-                cliente.close()
-    except:
-        logging.error('ERROR: Suscribiendose al tópico de eventos!')
+            if hasattr(datos, 'flag') and datos.flag == 0:
+                logging.info(f'Rechazando transacción por flag=0, iniciando compensación para imagen {datos.id}')
+                comando = EliminarImagenMedica(id=datos.id)
+                despachador.publicar_comando(comando, topico='comandos-imagen-medica-canonizar-compensacion')
+            else:
+                logging.info(f'Aceptando transacción para imagen {datos.id}')
+                comando = ComandoCanonizarImagenMedica(
+                    id=datos.id,
+                    url=datos.url,
+                    fecha_creacion=datos.fecha_creacion,
+                    flag=datos.flag
+                    # Considera agregar regiones_anatomicas y diagnostico si están disponibles
+                )
+                despachador.publicar_comando(comando, topico='comandos-imagen-medica-canonizar')
+
+            consumidor.acknowledge(mensaje)
+            logging.info(f'Comando publicado exitosamente para imagen {datos.id}')
+
+    except Exception as e:
+        logging.error(f'ERROR grave en la suscripción al tópico de eventos: {e}')
         traceback.print_exc()
+    finally:
+        if consumidor:
+            consumidor.close()
         if cliente:
             cliente.close()
+
 
 def suscribirse_a_eventos_compensacion():
     cliente = None
@@ -87,7 +96,7 @@ def suscribirse_a_comandos():
     cliente = None
     try:
         cliente = pulsar.Client(f'pulsar://{utils.broker_host()}:6650')
-        consumidor = cliente.subscribe('comandos-imagen-medica-canonizar', consumer_type=_pulsar.ConsumerType.Shared,
+        consumidor = cliente.subscribe('comandos-imagen-medica-canonizar', consumer_type=pulsar.ConsumerType.Shared,
                                        subscription_name='canonizar-sub-comandos-imagen-medica-canonizar',
                                        schema=AvroSchema(ComandoCanonizarImagenMedica))
 
