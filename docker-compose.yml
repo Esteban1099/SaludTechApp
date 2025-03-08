@@ -4,7 +4,7 @@ services:
     image: ingesta_automatizada
     container_name: ingesta_automatizada
     ports:
-      - "5000:5000"
+      - "5004:5000"
     environment:
       DB_URI: postgresql://postgres:postgres@database-ingesta_automatizada:5432/backend-ingesta_automatizada-db
       BROKER_HOST: pulsar
@@ -51,7 +51,7 @@ services:
       DB_URI: postgresql://postgres:postgres@database-canonizacion:5432/backend-canonizacion-db
       BROKER_HOST: pulsar
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5000/health" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:5002/health" ]
       interval: 10s
       timeout: 5s
       retries: 3

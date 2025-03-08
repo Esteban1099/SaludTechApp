@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  pulsar:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar
+    command: ["bin/pulsar", "standalone"]
+    ports:
+      - "6650:6650"  # Puerto para clientes Pulsar
+      - "8080:8080"  # UI de Pulsar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/admin/v2/brokers/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  database-canonizacion:
+    image: postgres:15
+    container_name: database-canonizacion
+    restart: always
+    ports:
+      - "5434:5432"  # Puerto expuesto para conexión
+    environment:
+      POSTGRES_DB: backend-canonizacion-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"  # UI de PgAdmin
+    depends_on:
+      database-canonizacion:
+        condition: service_healthy

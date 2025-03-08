@@ -1,6 +1,8 @@
 from pulsar.schema import *
 
 from src.canonizacion.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
+from src.ingesta_automatizada.modulos.ingesta_automatizada.infraestructura.schema.v1.comandos import \
+    ComandoEliminarImagenMedicaPayload
 
 
 class DemografiaRecord(Record):
@@ -41,3 +43,6 @@ class ComandoCanonizarImagenMedicaPayload(ComandoIntegracion):
 
 class ComandoCanonizarImagenMedica(ComandoIntegracion):
     data = ComandoCanonizarImagenMedicaPayload()
+
+class ComandoEliminarImagenMedica(ComandoIntegracion):
+    data = ComandoEliminarImagenMedicaPayload()
