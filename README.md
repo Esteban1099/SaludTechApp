@@ -1,6 +1,6 @@
-# Entrega Semana 6
+# Entrega Semana 7
 
-A continuación presentamos la entrega de la semana cinco.
+A continuación presentamos la entrega de la semana siete.
 
 En esta entrega presentamos un microservicio con comunicacion asincrona (comandos y eventos) usando Apache Pulsar.
 
@@ -58,6 +58,9 @@ Implementar monitoreo en tiempo real para prevenir fallos antes de que afecten a
 
 # Video Semana 6
 [Entrega semana 6](https://drive.google.com/file/d/1M952Uk35ohT4_VIlSeWzb7hRNUSRGCMn/view?usp=drive_link)
+
+# Video Semana 7
+[Entrega semana 7](https://drive.google.com/file/d/1PQvQcgCI5ipRjBvIEfM7HgOs5hM1QM0O/view?usp=sharing)
 
 
 
