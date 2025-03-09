@@ -60,7 +60,7 @@ Implementar monitoreo en tiempo real para prevenir fallos antes de que afecten a
 [Entrega semana 6](https://drive.google.com/file/d/1M952Uk35ohT4_VIlSeWzb7hRNUSRGCMn/view?usp=drive_link)
 
 # Video Semana 7
-[Entrega semana 7](https://drive.google.com/file/d/1PQvQcgCI5ipRjBvIEfM7HgOs5hM1QM0O/view?usp=sharing)
+[Entrega semana 7](https://drive.google.com/file/d/1T0h3Lg2iZMUKO9dpeNTTNpcaAjV-MjVG/view?usp=sharing)
 
 
 
